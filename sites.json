@@ -1,0 +1,37 @@
+[
+  {
+    "name": "MarkeZine",
+    "type": "rss",
+    "url": "https://markezine.jp/rss/new/20/index.xml",
+    "color": "#FF6B35",
+    "icon": "M"
+  },
+  {
+    "name": "日経クロストレンド",
+    "type": "rss",
+    "url": "https://xtrend.nikkei.com/rss/index.rdf",
+    "color": "#1A73E8",
+    "icon": "N"
+  },
+  {
+    "name": "AdverTimes",
+    "type": "rss",
+    "url": "https://www.advertimes.com/feed/",
+    "color": "#34A853",
+    "icon": "A"
+  },
+  {
+    "name": "電通報",
+    "type": "scrape",
+    "url": "https://dentsu-ho.com",
+    "color": "#9B59B6",
+    "icon": "D"
+  },
+  {
+    "name": "PREDGE",
+    "type": "rss",
+    "url": "https://predge.jp/feed",
+    "color": "#E74C3C",
+    "icon": "P"
+  }
+]
