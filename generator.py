@@ -222,21 +222,21 @@ GALLERY_TEMPLATE = Template(r"""<!DOCTYPE html>
   </div>
 </div>
 
-<div class="filters">
-  <button class="filter-btn active" data-filter="date" onclick="filterByDate('all')">すべて</button>
-  <button class="filter-btn" data-filter="date" onclick="filterByDate('today')">本日</button>
-  <button class="filter-btn" data-filter="date" onclick="filterByDate('older')">昨日以前</button>
+<div class="filters" id="filters">
+  <button class="filter-btn active" data-filter="date" data-value="all">すべて</button>
+  <button class="filter-btn" data-filter="date" data-value="recent">24時間以内</button>
+  <button class="filter-btn" data-filter="date" data-value="older">24時間以前</button>
   <div class="filter-divider"></div>
-  <button class="filter-btn active" data-filter="source" onclick="filterBySource('all')">全メディア</button>
+  <button class="filter-btn active" data-filter="source" data-value="all">全メディア</button>
   {% for source in sources %}
-  <button class="filter-btn" data-filter="source" onclick="filterBySource('{{ source }}')">{{ source }}</button>
+  <button class="filter-btn" data-filter="source" data-value="{{ source }}">{{ source }}</button>
   {% endfor %}
 </div>
 
 <div class="gallery" id="gallery">
   {% for article in articles %}
   <a class="card" href="{{ article.url }}" target="_blank"
-     data-source="{{ article.source }}" data-published="{{ article.published }}">
+     data-source="{{ article.source }}" data-published="{{ article.published }}" data-published-iso="{{ article.published_iso }}">
     {% if article.image_url %}
     <img class="card-image" src="{{ article.image_url }}"
          alt="" loading="lazy"
@@ -267,18 +267,27 @@ GALLERY_TEMPLATE = Template(r"""<!DOCTYPE html>
 </div>
 
 <script>
-const today = new Date().toISOString().slice(0, 10);
+const now = new Date();
+const cutoff = new Date(now.getTime() - 24 * 60 * 60 * 1000);
 let currentDate = 'all';
 let currentSource = 'all';
 
 function applyFilters() {
   document.querySelectorAll('.card').forEach(card => {
-    const pub = card.dataset.published || '';
+    const pubIso = card.dataset.publishedIso || '';
     const src = card.dataset.source || '';
 
     let dateOk = true;
-    if (currentDate === 'today') dateOk = pub === today;
-    else if (currentDate === 'older') dateOk = pub !== today && pub !== '';
+    if (currentDate !== 'all') {
+      if (!pubIso) {
+        // 日時不明の記事は「24時間以内」扱い
+        dateOk = currentDate === 'recent';
+      } else {
+        const pubDate = new Date(pubIso);
+        const isRecent = pubDate >= cutoff;
+        dateOk = currentDate === 'recent' ? isRecent : !isRecent;
+      }
+    }
 
     let sourceOk = currentSource === 'all' || src === currentSource;
 
@@ -286,19 +295,22 @@ function applyFilters() {
   });
 }
 
-function filterByDate(value) {
-  currentDate = value;
-  document.querySelectorAll('[data-filter="date"]').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
+document.getElementById('filters').addEventListener('click', function(e) {
+  var btn = e.target;
+  while (btn && !btn.classList.contains('filter-btn')) btn = btn.parentElement;
+  if (!btn) return;
+  var filterType = btn.getAttribute('data-filter');
+  var value = btn.getAttribute('data-value');
+  if (filterType === 'date') {
+    currentDate = value;
+    document.querySelectorAll('[data-filter="date"]').forEach(function(b) { b.classList.remove('active'); });
+  } else if (filterType === 'source') {
+    currentSource = value;
+    document.querySelectorAll('[data-filter="source"]').forEach(function(b) { b.classList.remove('active'); });
+  }
+  btn.classList.add('active');
   applyFilters();
-}
-
-function filterBySource(value) {
-  currentSource = value;
-  document.querySelectorAll('[data-filter="source"]').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
-  applyFilters();
-}
+});
 </script>
 
 </body>
@@ -326,12 +338,30 @@ def generate_gallery_html(articles: list, for_email: bool = False) -> str:
 
 EMAIL_TEMPLATE = Template(r"""<!DOCTYPE html>
 <html lang="ja">
-<head><meta charset="UTF-8"></head>
-<body style="margin:0; padding:0; background:#f7f6f3; font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans',sans-serif;">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body { margin:0; padding:0; background:#f7f6f3; font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans',sans-serif; }
+  .card-grid { display:flex; flex-wrap:wrap; gap:16px; padding:20px 24px; }
+  .card { width:calc(50% - 8px); box-sizing:border-box; background:white; border-radius:12px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,0.08); text-decoration:none; color:inherit; display:block; }
+  .card img { width:100%; height:160px; object-fit:cover; display:block; }
+  .card-placeholder { width:100%; height:160px; display:flex; align-items:center; justify-content:center; font-size:48px; font-weight:700; color:white; }
+  .card-body { padding:12px; }
+  .card-source { font-size:11px; font-weight:600; margin-bottom:6px; }
+  .card-title { font-size:14px; font-weight:600; line-height:1.5; margin-bottom:6px; color:#37352f; }
+  .card-summary { font-size:12px; color:#787774; line-height:1.4; margin-bottom:6px; }
+  .card-date { font-size:11px; color:#9b9a97; }
+  @media (max-width:600px) {
+    .card { width:100%; }
+  }
+</style>
+</head>
+<body>
 
 <table width="100%" cellpadding="0" cellspacing="0" style="background:#f7f6f3; padding:24px 0;">
 <tr><td align="center">
-<table width="640" cellpadding="0" cellspacing="0" style="background:white; border-radius:12px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,0.1);">
+<table width="680" cellpadding="0" cellspacing="0" style="background:white; border-radius:12px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,0.1); max-width:100%;">
 
   <!-- ヘッダー -->
   <tr><td style="background:linear-gradient(135deg,#2d3436,#636e72); color:white; padding:28px 24px;">
@@ -339,41 +369,34 @@ EMAIL_TEMPLATE = Template(r"""<!DOCTYPE html>
     <div style="font-size:13px; opacity:0.8; margin-top:6px;">{{ generated_at }} ｜ {{ total }}件の新着記事</div>
   </td></tr>
 
-  <!-- 記事カード -->
-  {% for article in articles %}
-  <tr><td style="padding:16px 24px; border-bottom:1px solid #f0efed;">
-    <table width="100%" cellpadding="0" cellspacing="0">
-    <tr>
-      {% if article.image_url %}
-      <td width="120" style="vertical-align:top; padding-right:16px;">
-        <img src="{{ article.image_url }}" width="120" height="80"
-             style="border-radius:8px; object-fit:cover; display:block;" alt="">
-      </td>
-      {% endif %}
-      <td style="vertical-align:top;">
-        <div style="font-size:11px; color:{{ article.source_color }}; font-weight:600; margin-bottom:4px;">
-          ● {{ article.source }}{% if article.category %} / {{ article.category }}{% endif %}
-        </div>
-        <a href="{{ article.url }}" style="font-size:15px; font-weight:600; color:#37352f; text-decoration:none; line-height:1.4;">
-          {{ article.title }}
-        </a>
-        {% if article.summary %}
-        <div style="font-size:12px; color:#787774; margin-top:4px; line-height:1.4;">
-          {{ article.summary[:100] }}...
-        </div>
+  <!-- ギャラリーグリッド -->
+  <tr><td>
+    <div class="card-grid">
+    {% for article in articles %}
+      <a class="card" href="{{ article.url }}" target="_blank">
+        {% if article.image_url %}
+        <img src="{{ article.image_url }}" alt="">
+        {% else %}
+        <div class="card-placeholder" style="background:{{ article.source_color }};">{{ article.source_icon }}</div>
         {% endif %}
-        {% if article.published %}
-        <div style="font-size:11px; color:#9b9a97; margin-top:4px;">{{ article.published }}</div>
-        {% endif %}
-      </td>
-    </tr>
-    </table>
+        <div class="card-body">
+          <div class="card-source" style="color:{{ article.source_color }};">● {{ article.source }}</div>
+          <div class="card-title">{{ article.title }}</div>
+          {% if article.summary %}
+          <div class="card-summary">{{ article.summary[:80] }}...</div>
+          {% endif %}
+          {% if article.published %}
+          <div class="card-date">{{ article.published }}</div>
+          {% endif %}
+        </div>
+      </a>
+    {% endfor %}
+    </div>
   </td></tr>
-  {% endfor %}
 
   <!-- フッター -->
-  <tr><td style="padding:20px 24px; text-align:center; font-size:12px; color:#9b9a97;">
-    <a href="file://{{ html_path }}" style="color:#1A73E8;">ブラウザでギャラリー表示を見る</a>
+  <tr><td style="padding:16px 24px; text-align:center; font-size:12px; color:#9b9a97; border-top:1px solid #f0efed;">
+    最新ニュース | 自動配信
   </td></tr>
 
 </table>

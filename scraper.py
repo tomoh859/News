@@ -27,6 +27,7 @@ class Article:
     source_color: str
     source_icon: str
     published: str = ""
+    published_iso: str = ""
     summary: str = ""
     image_url: str = ""
     category: str = ""
@@ -47,10 +48,15 @@ def fetch_rss(site: dict) -> list[Article]:
     for entry in feed.entries[:max_articles]:
         # 日付
         published = ""
+        published_iso = ""
         if hasattr(entry, "published_parsed") and entry.published_parsed:
-            published = datetime(*entry.published_parsed[:6]).strftime("%Y-%m-%d")
+            dt = datetime(*entry.published_parsed[:6])
+            published = dt.strftime("%Y-%m-%d")
+            published_iso = dt.strftime("%Y-%m-%dT%H:%M:%S")
         elif hasattr(entry, "updated_parsed") and entry.updated_parsed:
-            published = datetime(*entry.updated_parsed[:6]).strftime("%Y-%m-%d")
+            dt = datetime(*entry.updated_parsed[:6])
+            published = dt.strftime("%Y-%m-%d")
+            published_iso = dt.strftime("%Y-%m-%dT%H:%M:%S")
 
         # 概要
         summary = ""
@@ -81,6 +87,7 @@ def fetch_rss(site: dict) -> list[Article]:
             source_color=site["color"],
             source_icon=site["icon"],
             published=published,
+            published_iso=published_iso,
             summary=summary,
             image_url=image_url,
             category=category,
@@ -98,12 +105,9 @@ def scrape_dentsuho(site: dict) -> list[Article]:
         resp.raise_for_status()
         soup = BeautifulSoup(resp.text, "html.parser")
 
-        # 記事カードを探す
-        cards = soup.select("article a, .article-card a, .post-item a, a[href*='/articles/']")
         seen_urls = set()
-
-        for card in cards:
-            href = card.get("href", "")
+        for a_tag in soup.select("a[href*='/articles/']"):
+            href = a_tag.get("href", "")
             if not href or "/articles/" not in href:
                 continue
             if not href.startswith("http"):
@@ -112,15 +116,28 @@ def scrape_dentsuho(site: dict) -> list[Article]:
                 continue
             seen_urls.add(href)
 
-            title_el = card.select_one("h2, h3, .title, p")
-            title = title_el.get_text(strip=True) if title_el else card.get_text(strip=True)
+            title_el = a_tag.select_one("h2, h3, h4, .title, p")
+            title = title_el.get_text(strip=True) if title_el else a_tag.get_text(strip=True)
             if not title or len(title) < 5:
                 continue
 
-            img_el = card.select_one("img")
+            img_el = a_tag.select_one("img")
             image_url = ""
             if img_el:
                 image_url = img_el.get("src", "") or img_el.get("data-src", "")
+
+            # 日付取得: span.text-locale-muted から YYYY/MM/DD を探す
+            published = ""
+            for span in a_tag.select("span.text-locale-muted"):
+                text = span.get_text(strip=True)
+                m = re.match(r"(\d{4}/\d{2}/\d{2})", text)
+                if m:
+                    try:
+                        dt = datetime.strptime(m.group(1), "%Y/%m/%d")
+                        published = dt.strftime("%Y-%m-%d")
+                    except ValueError:
+                        pass
+                    break
 
             articles.append(Article(
                 title=title[:100],
@@ -128,6 +145,7 @@ def scrape_dentsuho(site: dict) -> list[Article]:
                 source=site["name"],
                 source_color=site["color"],
                 source_icon=site["icon"],
+                published=published,
                 image_url=image_url,
             ))
 
@@ -160,6 +178,31 @@ def fetch_ogp_image(url: str) -> str:
     except Exception:
         pass
     return ""
+
+
+def fetch_all_articles_for_sites(sites: list[dict]) -> list[Article]:
+    """指定サイトリストから記事を取得"""
+    all_articles = []
+
+    for site in sites:
+        print(f"📡 {site['name']} を取得中...")
+        if site["type"] == "rss":
+            articles = fetch_rss(site)
+        elif site["type"] == "scrape":
+            articles = scrape_dentsuho(site)
+        else:
+            continue
+
+        for art in articles:
+            if not art.image_url:
+                print(f"  🖼  OGP取得: {art.title[:30]}...")
+                art.image_url = fetch_ogp_image(art.url)
+
+        print(f"  ✅ {len(articles)}件取得")
+        all_articles.extend(articles)
+
+    all_articles.sort(key=lambda a: a.published or "0000-00-00", reverse=True)
+    return all_articles
 
 
 def fetch_all_articles() -> list[Article]:

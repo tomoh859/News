@@ -16,7 +16,7 @@ import sys
 import webbrowser
 
 from scraper import fetch_all_articles
-from generator import save_gallery, generate_email_html
+from generator import save_gallery, generate_gallery_html
 from mailer import send_email, filter_recent_articles
 from site_manager import list_sites, add_site, remove_site
 
@@ -86,17 +86,14 @@ def main():
         print("🌐 ブラウザでギャラリーを開きます...")
         webbrowser.open(f"file://{gallery_path.resolve()}")
 
-    # 4. メール送信（24時間以内の記事のみ）
+    # 4. メール送信（添付:全記事、本文:24時間以内の記事一覧）
     if send_mail:
         recent = filter_recent_articles(articles, hours=24)
-        if recent:
-            print(f"\n📧 24時間以内の記事 {len(recent)}件 をメール送信中...")
-            email_html = generate_email_html(recent, str(gallery_path.resolve()))
-            success, error_msg = send_email(email_html)
-            if not success:
-                print(f"  ❌ {error_msg}")
-        else:
-            print("\n📭 24時間以内の新着記事がないため、メール送信をスキップしました")
+        print(f"\n📧 全{len(articles)}件を添付、本文に24時間以内の{len(recent)}件を記載して送信中...")
+        gallery_html = generate_gallery_html(articles)
+        success, error_msg = send_email(gallery_html, recent_articles=recent)
+        if not success:
+            print(f"  ❌ {error_msg}")
     else:
         print("\n💡 メール送信するには: python main.py --mail")
 
