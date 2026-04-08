@@ -1,0 +1,3007 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>今朝のマーケティングニュース</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #f7f6f3;
+    color: #37352f;
+    line-height: 1.6;
+  }
+
+  /* ── ヘッダー ── */
+  .header {
+    background: linear-gradient(135deg, #2d3436 0%, #636e72 100%);
+    color: white;
+    padding: 40px 32px 32px;
+  }
+  .header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .header .date {
+    font-size: 14px;
+    opacity: 0.8;
+  }
+  .header .stats {
+    display: flex;
+    gap: 24px;
+    margin-top: 16px;
+    font-size: 13px;
+  }
+  .header .stats span {
+    background: rgba(255,255,255,0.15);
+    padding: 4px 12px;
+    border-radius: 12px;
+  }
+
+  /* ── フィルター ── */
+  .filters {
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    background: white;
+    border-bottom: 1px solid #e8e5e0;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .filter-btn {
+    padding: 6px 16px;
+    border-radius: 20px;
+    border: 1px solid #e0ddd8;
+    background: white;
+    cursor: pointer;
+    font-size: 13px;
+    font-family: inherit;
+    transition: all 0.2s;
+  }
+  .filter-btn:hover { background: #f0efed; }
+  .filter-btn.active {
+    background: #37352f;
+    color: white;
+    border-color: #37352f;
+  }
+  .filter-divider {
+    width: 1px;
+    height: 24px;
+    background: #e0ddd8;
+    margin: 0 4px;
+  }
+
+  /* ── ギャラリーグリッド ── */
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+    padding: 24px 32px 48px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  /* ── カード ── */
+  .card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    transition: all 0.25s ease;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .card:hover {
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    transform: translateY(-3px);
+  }
+
+  /* サムネイル */
+  .card-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+    background: #e8e5e0;
+  }
+  .card-placeholder {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 64px;
+    font-weight: 700;
+    color: white;
+  }
+
+  /* カード本文 */
+  .card-body {
+    padding: 16px;
+  }
+  .card-source {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  .card-source .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .card-title {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.5;
+    margin-bottom: 8px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .card-summary {
+    font-size: 13px;
+    color: #787774;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+  .card-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #9b9a97;
+  }
+  .card-category {
+    background: #f0efed;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+  }
+
+  /* ── レスポンシブ ── */
+  @media (max-width: 768px) {
+    .header { padding: 24px 16px 20px; }
+    .header h1 { font-size: 22px; }
+    .filters { padding: 12px 16px; }
+    .gallery {
+      grid-template-columns: 1fr;
+      padding: 16px;
+      gap: 16px;
+    }
+  }
+
+  /* ── 記事なし ── */
+  .no-articles {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 48px;
+    color: #9b9a97;
+    font-size: 15px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>今朝のマーケティングニュース</h1>
+  <div class="date">2026年04月08日 14:45 更新</div>
+  <div class="stats">
+    
+    <span>MarkeZine: 30件</span>
+    
+    <span>日経クロストレンド: 30件</span>
+    
+    <span>AdverTimes: 30件</span>
+    
+    <span>電通報: 17件</span>
+    
+    <span>PREDGE: 10件</span>
+    
+    <span>合計: 117件</span>
+  </div>
+</div>
+
+<div class="filters" id="filters">
+  <button class="filter-btn active" data-filter="date" data-value="all">すべて</button>
+  <button class="filter-btn" data-filter="date" data-value="recent">24時間以内</button>
+  <button class="filter-btn" data-filter="date" data-value="older">24時間以前</button>
+  <div class="filter-divider"></div>
+  <button class="filter-btn active" data-filter="source" data-value="all">全メディア</button>
+  
+  <button class="filter-btn" data-filter="source" data-value="MarkeZine">MarkeZine</button>
+  
+  <button class="filter-btn" data-filter="source" data-value="日経クロストレンド">日経クロストレンド</button>
+  
+  <button class="filter-btn" data-filter="source" data-value="AdverTimes">AdverTimes</button>
+  
+  <button class="filter-btn" data-filter="source" data-value="電通報">電通報</button>
+  
+  <button class="filter-btn" data-filter="source" data-value="PREDGE">PREDGE</button>
+  
+</div>
+
+<div class="gallery" id="gallery">
+  
+  <a class="card" href="https://markezine.jp/article/detail/50331" target="_blank"
+     data-source="MarkeZine" data-published="2026-04-08" data-published-iso="2026-04-08T03:00:00Z">
+    
+    <img class="card-image" src="https://markezine.jp/static/images/article/50331/50331_fb_2.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#FF6B35\'>M</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #FF6B35"></span>
+        MarkeZine
+      </div>
+      <div class="card-title">「知られているが選ばれない」をどう打破する？本間ゴルフが過去の栄光を捨てて挑むブランド再定義</div>
+      
+      <div class="card-summary">創業65年以上の歴史を持つ「本間ゴルフ」。ゴルフ好きならモグラが顔を出しているロゴを一度は見かけたことがあるのではないだろうか。圧倒的な技術力を誇り、ゴルフメーカーとして一時代を築いてきた同社だが、「古臭い」「昔ながらの」ブランドといったイメージが生まれてしまっているのも事実だ。2023年12月社長</div>
+      
+      <div class="card-meta">
+        <span>2026-04-08</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://markezine.jp/article/detail/50622" target="_blank"
+     data-source="MarkeZine" data-published="2026-04-08" data-published-iso="2026-04-08T02:00:00Z">
+    
+    <img class="card-image" src="https://markezine.jp/static/images/article/50622/id461ogp.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#FF6B35\'>M</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #FF6B35"></span>
+        MarkeZine
+      </div>
+      <div class="card-title">AIエージェントが同僚になる時代、自分たちのビジョンが問われる。自由と統制の両立こそが実用化の本丸</div>
+      
+      <div class="card-summary">Hakuhodo DY ONEのマーケティング支援サービス「ONE-AIGENT」を軸に、マーケティングの最新動向を追う本連載。約4ヵ月にわたる連載の最終回は、AIdiver編集長の押久保剛、AI専門家でAIdiver特命副編集長の野口竜司氏と、Hakuhodo DY ONE 常務執行役員 柴山大氏</div>
+      
+      <div class="card-meta">
+        <span>2026-04-08</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://markezine.jp/article/detail/50525" target="_blank"
+     data-source="MarkeZine" data-published="2026-04-08" data-published-iso="2026-04-08T01:00:00Z">
+    
+    <img class="card-image" src="https://markezine.jp/static/images/article/50525/50525_fb.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#FF6B35\'>M</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #FF6B35"></span>
+        MarkeZine
+      </div>
+      <div class="card-title">一歩進んだAI活用で、ここまでできる！AI×大規模生活者行動データで進化するマーケティングリサーチ</div>
+      
+      <div class="card-summary">様々な領域での活用が進み、いまやAIは特別なものではなくなった。一方で、既存業務の効率化にとどまっている企業も多く、消費者理解や市場理解のあり方そのものを変える活用はまだ十分に進んでいないのが現状だろう。AIだからこそできる仕事とは何か。そして活用することで、広がる可能性にはどのようなものがあるのか</div>
+      
+      <div class="card-meta">
+        <span>2026-04-08</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://markezine.jp/article/detail/50556" target="_blank"
+     data-source="MarkeZine" data-published="2026-04-08" data-published-iso="2026-04-08T00:00:00Z">
+    
+    <img class="card-image" src="https://markezine.jp/static/images/article/50556/50556_fb.png"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#FF6B35\'>M</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #FF6B35"></span>
+        MarkeZine
+      </div>
+      <div class="card-title">消滅寸前3人だったマーケ組織を売上創造の要に。マクロミルの泥臭くも戦略的なBtoBマーケティング改革</div>
+      
+      <div class="card-summary">マーケティング関連予算はほぼゼロになり、部門の人員は3名まで減少。そんな逆境から、マクロミルはオウンドメディアを起点にBtoBマーケティングを再構築した。メルマガをメディアブランドとして育て、社内知見をコンテンツとして循環させることで、マーケティング経由の売上比率は4.5％から20％へ拡大したという</div>
+      
+      <div class="card-meta">
+        <span>2026-04-08</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://markezine.jp/article/detail/49795" target="_blank"
+     data-source="MarkeZine" data-published="2026-04-08" data-published-iso="2026-04-07T23:30:00Z">
+    
+    <img class="card-image" src="https://markezine.jp/static/images/article/49795/49795_fb.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#FF6B35\'>M</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #FF6B35"></span>
+        MarkeZine
+      </div>
+      <div class="card-title">資生堂「エリクシール」「丸亀製麺」に学ぶ　ブランド戦略からSNS施策をどう設計し、評価するか？</div>
+      
+      <div class="card-summary">マーケティング戦略を構築する上で、SNS活用は欠かせなくなった。一方、ブランド戦略の中でSNS施策をどう位置付け、事業成果として評価するか、模索する企業も多いだろう。「MarkeZine Day 2025 Autumn」では、マーケティング戦略の一環としてSNS施策を構築し、成果を出しているブランド</div>
+      
+      <div class="card-meta">
+        <span>2026-04-08</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://markezine.jp/article/detail/50636" target="_blank"
+     data-source="MarkeZine" data-published="2026-04-08" data-published-iso="2026-04-07T22:00:00Z">
+    
+    <img class="card-image" src="https://markezine.jp/static/images/article/50636/50636_fb.png"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#FF6B35\'>M</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #FF6B35"></span>
+        MarkeZine
+      </div>
+      <div class="card-title">サイバーエージェント、広告配信運用AIエージェント「効果おまかせAI」を提供へ　入札・配信を最適化</div>
+      
+      <div class="card-meta">
+        <span>2026-04-08</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://xtrend.nikkei.com/atcl/contents/18/01354/00004/?n_cid=nbpnxr_rss" target="_blank"
+     data-source="日経クロストレンド" data-published="2026-04-08" data-published-iso="2026-04-07T15:01:00Z">
+    
+    <img class="card-image" src="https://xtrend.nikkei.com/atcl/contents/18/01354/00004/nxr_m.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#1A73E8\'>N</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #1A73E8"></span>
+        日経クロストレンド
+      </div>
+      <div class="card-title">八代目儀兵衛がSEO効果減で危機感　自社ECサイトの改革でAI検索に対抗</div>
+      
+      <div class="card-summary">京都の老舗米店、八代目儀兵衛がAI検索時代において危機感を強めている。従来のSEOでは上位表示できるキーワードでも、生成AIに尋ねると自社名がなかなか推奨候補に挙がってこないからだ。通販を主力とし、検索経由でギフト需要を取り込んできた同社は、2025年9月ごろからAIO対策に着手した。自社サイトの文</div>
+      
+      <div class="card-meta">
+        <span>2026-04-08</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://xtrend.nikkei.com/atcl/contents/18/00589/00319/?n_cid=nbpnxr_rss" target="_blank"
+     data-source="日経クロストレンド" data-published="2026-04-08" data-published-iso="2026-04-07T15:00:00Z">
+    
+    <img class="card-image" src="https://xtrend.nikkei.com/atcl/contents/18/00589/00319/nxr_m.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#1A73E8\'>N</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #1A73E8"></span>
+        日経クロストレンド
+      </div>
+      <div class="card-title">保険業法改正で何が変わる？　記者が乗合代理店を実際に訪れてみた</div>
+      
+      <div class="card-summary">ビッグモーター事件を契機に、保険業界の販売現場が変わり始めた。2025年の保険業法改正で、乗合代理店には複数商品を比較し、顧客の意向に沿って理由を示す「比較推奨販売」が求められる。26年施行を前に、窓口ではどんな対応が進んでいるのか。独自システムで比較を行う事例や実際の相談体験を通じ、制度変更が消費</div>
+      
+      <div class="card-meta">
+        <span>2026-04-08</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://xtrend.nikkei.com/atcl/contents/18/00947/00274/?n_cid=nbpnxr_rss" target="_blank"
+     data-source="日経クロストレンド" data-published="2026-04-08" data-published-iso="2026-04-07T15:00:00Z">
+    
+    <img class="card-image" src="https://xtrend.nikkei.com/atcl/contents/18/00947/00274/nxr_m.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#1A73E8\'>N</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #1A73E8"></span>
+        日経クロストレンド
+      </div>
+      <div class="card-title">工芸大学の職業訓練プログラムが米デザインアワード受賞</div>
+      
+      <div class="card-summary">米ニューヨークのクーパー・ヒューイット・スミソニアン国立デザイン博物館は2026年度の「ナショナル・デザイン・アワード」受賞者を26年2月に発表した。「Design Visionary（デザインの先駆者）」「Climate Action（気候変動対策）」などユニークな部門がある中で注目されたのが、プ</div>
+      
+      <div class="card-meta">
+        <span>2026-04-08</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://xtrend.nikkei.com/atcl/contents/casestudy/00012/01840/?n_cid=nbpnxr_rss" target="_blank"
+     data-source="日経クロストレンド" data-published="2026-04-08" data-published-iso="2026-04-07T15:00:00Z">
+    
+    <img class="card-image" src="https://xtrend.nikkei.com/atcl/contents/casestudy/00012/01840/nxr_m.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#1A73E8\'>N</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #1A73E8"></span>
+        日経クロストレンド
+      </div>
+      <div class="card-title">キリン「晴れ風」の後味を独自AIで改善　20～30項目で嗜好を可視化</div>
+      
+      <div class="card-summary">キリンビールは2026年1月、ビールブランド「晴れ風」のリニューアルを発表した。単なる見た目の刷新ではない。味を開発するプロセスにおいて、消費者が感じる嗜好と成分の関係を解析する独自AI「FJWLA（フジワラ）」を商品化に初めて活用した。商品開発におけるAI活用のヒントを探る。</div>
+      
+      <div class="card-meta">
+        <span>2026-04-08</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://xtrend.nikkei.com/atcl/contents/18/01184/00053/?n_cid=nbpnxr_rss" target="_blank"
+     data-source="日経クロストレンド" data-published="2026-04-08" data-published-iso="2026-04-07T15:00:00Z">
+    
+    <img class="card-image" src="https://xtrend.nikkei.com/atcl/contents/18/01184/00053/nxr_m.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#1A73E8\'>N</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #1A73E8"></span>
+        日経クロストレンド
+      </div>
+      <div class="card-title">ZETA DIVISIONが『エーペックス』再参入　西原代表とYukaF選手の思いは</div>
+      
+      <div class="card-summary">国内屈指の人気eスポーツチーム「ZETA DIVISION」が『エーペックスレジェンズ』部門を再設立した。エーペックスの年間王者を決める世界大会は2025年から日本の札幌で開催されるなど、国内シーンが活気づいている。運営会社であるGANYMEDE代表取締役の西原大輔氏と、大型移籍で話題を呼んだトップ</div>
+      
+      <div class="card-meta">
+        <span>2026-04-08</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://xtrend.nikkei.com/atcl/contents/18/01115/00018/?n_cid=nbpnxr_rss" target="_blank"
+     data-source="日経クロストレンド" data-published="2026-04-08" data-published-iso="2026-04-07T15:00:00Z">
+    
+    <img class="card-image" src="https://xtrend.nikkei.com/atcl/contents/18/01115/00018/nxr_m.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#1A73E8\'>N</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #1A73E8"></span>
+        日経クロストレンド
+      </div>
+      <div class="card-title">SHIFT丹下社長「社員に『AIで君の仕事はなくなる』と伝え、考えさせる」</div>
+      
+      <div class="card-summary">「一人ひとりが自分の仕事は本当になくなると思うべきだ」とSHIFTの丹下大社長は喝破する。日経BPが開催した「AIリーダーズ会議」において、日経ビジネス編集長による公開インタビューに応じた。</div>
+      
+      <div class="card-meta">
+        <span>2026-04-08</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://xtrend.nikkei.com/atcl/contents/18/01361/00003/?n_cid=nbpnxr_rss" target="_blank"
+     data-source="日経クロストレンド" data-published="2026-04-08" data-published-iso="2026-04-07T15:00:00Z">
+    
+    <img class="card-image" src="https://xtrend.nikkei.com/atcl/contents/18/01361/00003/nxr_m.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#1A73E8\'>N</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #1A73E8"></span>
+        日経クロストレンド
+      </div>
+      <div class="card-title">3年後の消費者のスマホ購入プロセスを予測　未来志向の顧客行動観察</div>
+      
+      <div class="card-summary">過去を起点にしてプロセスを考えるのではなく、将来から逆算的に今すべきことを見いだす「未来起点のマーケティング」手法を提唱する本特集。商品企画に続いて、今回からカスタマージャーニーをいかに設計すべきかについて取り上げる。もちろん、その際の武器は「AIリサーチ」だ。特集3回目は、的確なコンテキストを与え</div>
+      
+      <div class="card-meta">
+        <span>2026-04-08</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://xtrend.nikkei.com/atcl/contents/watch/00013/02847/?n_cid=nbpnxr_rss" target="_blank"
+     data-source="日経クロストレンド" data-published="2026-04-08" data-published-iso="2026-04-07T15:00:00Z">
+    
+    <img class="card-image" src="https://xtrend.nikkei.com/atcl/contents/watch/00013/02847/nxr_m.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#1A73E8\'>N</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #1A73E8"></span>
+        日経クロストレンド
+      </div>
+      <div class="card-title">「綾鷹」は機能化に活路　緑茶が「当たり前に売れる時代」の終焉</div>
+      
+      <div class="card-summary">綾鷹ブランドが2026年春から順次、4製品の発売およびリニューアルを実施する。止渇ニーズを狙う「ミネラル緑茶」や、機能性関与成分GABAを配合した「濃いほうじ茶」など、多様化する消費者ニーズを捉えに出る。こうした戦略から見えてくるのは、かつて“当たり前に買われていた”ペットボトル緑茶も、明確な価値提</div>
+      
+      <div class="card-meta">
+        <span>2026-04-08</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://xtrend.nikkei.com/atcl/contents/18/01362/00001/?n_cid=nbpnxr_rss" target="_blank"
+     data-source="日経クロストレンド" data-published="2026-04-08" data-published-iso="2026-04-07T15:00:00Z">
+    
+    <img class="card-image" src="https://xtrend.nikkei.com/atcl/contents/18/01362/00001/nxr_m.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#1A73E8\'>N</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #1A73E8"></span>
+        日経クロストレンド
+      </div>
+      <div class="card-title">パナソニックコネクトCMO山口氏のキャリア論　20代はテイクの黄金期</div>
+      
+      <div class="card-summary">パナソニックコネクトで取締役 兼 CMOとして経営とマーケティングを担い、DEI推進やカルチャー変革にも取り組む山口有希子氏。山口氏のキャリアは営業から始まり、ヤフージャパンや日本IBMをはじめ、国内外の企業を渡り歩いてきた。そこにはいつも人との出会いがあったという。どのようにキャリアを選び、成長し</div>
+      
+      <div class="card-meta">
+        <span>2026-04-08</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://xtrend.nikkei.com/atcl/contents/18/01225/00007/?n_cid=nbpnxr_rss" target="_blank"
+     data-source="日経クロストレンド" data-published="2026-04-08" data-published-iso="2026-04-07T15:00:00Z">
+    
+    <img class="card-image" src="https://xtrend.nikkei.com/atcl/contents/18/01225/00007/nxr_m.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#1A73E8\'>N</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #1A73E8"></span>
+        日経クロストレンド
+      </div>
+      <div class="card-title">事実の力で戦争は止められるか？　事実を理解する「6つの顔」</div>
+      
+      <div class="card-summary">不安が募る一方のイラン軍事衝突。いったい、いつ終わるのでしょうか。この連載の根底には、「事実には人を動かす力がある」という前提があります。そうなると「事実の力とやらで、戦争を止めてくれよ」といった声も聞こえてきそうです。そこで今回、大胆（無謀？）にも筆者2人がその極めて難しいテーマに挑むことにしまし</div>
+      
+      <div class="card-meta">
+        <span>2026-04-08</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://xtrend.nikkei.com/atcl/contents/18/01354/00003/?n_cid=nbpnxr_rss" target="_blank"
+     data-source="日経クロストレンド" data-published="2026-04-08" data-published-iso="2026-04-07T15:00:00Z">
+    
+    <img class="card-image" src="https://xtrend.nikkei.com/atcl/contents/18/01354/00003/nxr_m.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#1A73E8\'>N</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #1A73E8"></span>
+        日経クロストレンド
+      </div>
+      <div class="card-title">「AIに推奨されない」を解消する4ステップ　想定プロンプトから逆算対策</div>
+      
+      <div class="card-summary">ChatGPTやGeminiなどの生成AIの登場以降、「SEOは終わるのか」「Web流入は激減するのか」といった議論が過熱している。AI検索の進化がマーケティングに与える影響は無視できない一方で、企業の現場では判断に迷う声も多い。こうした問いに対し、AI最適化やSEO対策のコンサルティングを行うSp</div>
+      
+      <div class="card-meta">
+        <span>2026-04-08</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://www.advertimes.com/20260408/article540513/?utm_source=feed" target="_blank"
+     data-source="AdverTimes" data-published="2026-04-08" data-published-iso="2026-04-08T02:51:15Z">
+    
+    <img class="card-image" src="https://cdn.advertimes.com/wp-content/uploads/2026/04/suntory_masters-dream_ogp-1200x630.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#34A853\'>A</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #34A853"></span>
+        AdverTimes
+      </div>
+      <div class="card-title">ビールづくりへの常軌を逸したこだわりを、手彫りの木版画で表現、「マスターズドリーム」新Webムービー</div>
+      
+      <div class="card-summary">サントリーは、3月23日に「ザ・プレミアム・モルツ マスターズドリーム」（以下 マスターズドリーム）のWebムービーを公式YouTube、およびXとインスタグラムで公開。３月29日まで、東京メトロの表参道駅と六本木駅でOOHを展開した。
+The post ビールづくりへの常軌を逸したこだわりを、手彫</div>
+      
+      <div class="card-meta">
+        <span>2026-04-08</span>
+        
+        <span class="card-category">新着記事</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://www.advertimes.com/20260408/article540706/?utm_source=feed" target="_blank"
+     data-source="AdverTimes" data-published="2026-04-08" data-published-iso="2026-04-08T02:41:54Z">
+    
+    <img class="card-image" src="https://cdn.advertimes.com/wp-content/uploads/2026/04/asahibeer_bk-nikka_event_ogp-1200x630.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#34A853\'>A</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #34A853"></span>
+        AdverTimes
+      </div>
+      <div class="card-title">ブラックニッカ、“ヒゲのおじさん” モチーフに期間限定イベント開催　若年層のブランド認知・接点創出狙う</div>
+      
+      <div class="card-summary">アサヒビールとニッカウヰスキーは4月6日から、「ブラックニッカ クリアハイボール缶」のイベント「あなたの知らないブラックニッカ展」を開催。同12日までの期間限定で、東急プラザ原宿「ハラカド」6・7階屋上テラスで実施している。
+The post ブラックニッカ、“ヒゲのおじさん” モチーフに期間限定イ</div>
+      
+      <div class="card-meta">
+        <span>2026-04-08</span>
+        
+        <span class="card-category">新着記事</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://www.advertimes.com/20260408/article540647/?utm_source=feed" target="_blank"
+     data-source="AdverTimes" data-published="2026-04-08" data-published-iso="2026-04-08T01:54:18Z">
+    
+    <img class="card-image" src="https://cdn.advertimes.com/wp-content/uploads/2026/03/ogp-75-1200x630.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#34A853\'>A</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #34A853"></span>
+        AdverTimes
+      </div>
+      <div class="card-title">デジタルによって変化する「顧客のより良い生活」を顧客体験として描く（新刊『THE CUSTOMER CENTRIC COMPANY 顧客基点経営10の実践』はじめに公開）</div>
+      
+      <div class="card-summary">「宣伝会議のこの本、どんな本」では、当社が刊行した書籍の内容と性格を感じていただけるよう、「はじめに」や識者による本の解説を掲載しています。今回は、4月1日に発売した新刊『THE CUSTOMER CENTRIC COMPANY 顧客基点経営10の実践』（岩井琢磨 編著）の「はじめに」をご紹介します</div>
+      
+      <div class="card-meta">
+        <span>2026-04-08</span>
+        
+        <span class="card-category">コラム</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://www.advertimes.com/20260408/article540685/?utm_source=feed" target="_blank"
+     data-source="AdverTimes" data-published="2026-04-08" data-published-iso="2026-04-08T01:51:03Z">
+    
+    <img class="card-image" src="https://cdn.advertimes.com/wp-content/uploads/2026/04/asken_ogp-1200x630.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#34A853\'>A</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #34A853"></span>
+        AdverTimes
+      </div>
+      <div class="card-title">渋谷駅の「あすけん」交通広告、「圧がすごい」とＸで拡散　 “並び ”と“文脈”でつくるコミュニケーション</div>
+      
+      <div class="card-summary">AI食事管理アプリ「あすけん」を開発・運営するaskenは、2026年3月23日から29日まで、東急東横線・田園都市線渋谷駅に「未来さんの新生活応援広告」を掲出した。
+The post 渋谷駅の「あすけん」交通広告、「圧がすごい」とＸで拡散　 “並び ”と“文脈”でつくるコミュニケーション firs</div>
+      
+      <div class="card-meta">
+        <span>2026-04-08</span>
+        
+        <span class="card-category">新着記事</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://www.advertimes.com/20260408/article537827/?utm_source=feed" target="_blank"
+     data-source="AdverTimes" data-published="2026-04-08" data-published-iso="2026-04-08T00:00:17Z">
+    
+    <img class="card-image" src="https://cdn.advertimes.com/wp-content/uploads/2026/03/col_yamagiwa-1200x630.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#34A853\'>A</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #34A853"></span>
+        AdverTimes
+      </div>
+      <div class="card-title">コピーライターの重み／物理（山際良子）</div>
+      
+      <div class="card-summary">2.5kg。コピー年鑑の平均的な重さです。その年ごとのページ数や装丁の違いによって軽めの年がありつつ、3kg超えの年も珍しくないくらいです。
+The post コピーライターの重み／物理（山際良子） first appeared on AdverTimes.（アドタイ） by 宣伝会議.</div>
+      
+      <div class="card-meta">
+        <span>2026-04-08</span>
+        
+        <span class="card-category">コラム</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://dentsu-ho.com/articles/9686" target="_blank"
+     data-source="電通報" data-published="2026-04-08" data-published-iso="">
+    
+    <img class="card-image" src="https://cdn.speedsize.com/e7df76a9-4406-40f5-bc97-57e7c2c2d99d/https://cdn.dentsu-ho.com/04a4471c-fe36-4e7a-bc4c-c861d1462a5d/tv-lab06_top.jpg/f_auto,w_3840"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#9B59B6\'>D</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #9B59B6"></span>
+        電通報
+      </div>
+      <div class="card-title">電通が考えるテレビCMのイノベーションとは？</div>
+      
+      <div class="card-meta">
+        <span>2026-04-08</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://predge.jp/341823/" target="_blank"
+     data-source="PREDGE" data-published="2026-04-08" data-published-iso="2026-04-08T05:00:44Z">
+    
+    <img class="card-image" src="https://predge.jp/wp-content/uploads/2026/04/king-1024x576.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#E74C3C\'>P</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #E74C3C"></span>
+        PREDGE
+      </div>
+      <div class="card-title">＼ Pick of the week ／先週の話題事例ピックアップ＜3/30-4/5＞</div>
+      
+      <div class="card-summary">PR EDGEにおいて、先週たくさん読まれたPR事例・クリエイティブ事例をピックアップしてご紹介する「Pick of the week」。先週の話題事例ピックアップ＜3/30-4/5＞は、焼肉きんぐ、キリンビール、森永乳業、テレビ東京、伊藤忠商事の事例紹介記事をまとめてお届けします。</div>
+      
+      <div class="card-meta">
+        <span>2026-04-08</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://predge.jp/341740/" target="_blank"
+     data-source="PREDGE" data-published="2026-04-08" data-published-iso="2026-04-08T04:00:33Z">
+    
+    <img class="card-image" src="https://predge.jp/wp-content/uploads/2026/04/hinatan1-1024x512.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#E74C3C\'>P</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #E74C3C"></span>
+        PREDGE
+      </div>
+      <div class="card-title">平岡海月さんのエッセイと味わう 日向坂46×VANILLABEANSの限定パッケージ</div>
+      
+      <div class="card-summary">日向坂46「7回目のひな誕祭」に合わせて展開された、VANILLABEANSの限定コラボ事例を紹介します。パッケージに平岡海月さんのエッセイの一部を掲載し、全文は後日オンラインで公開。中身を変えずパッケージで意味を加えることで、ファン層への認知拡大と、スイーツと著名人コラボの新たなあり方を示していま</div>
+      
+      <div class="card-meta">
+        <span>2026-04-08</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://predge.jp/341303/" target="_blank"
+     data-source="PREDGE" data-published="2026-04-08" data-published-iso="2026-04-08T03:00:34Z">
+    
+    <img class="card-image" src="https://predge.jp/wp-content/uploads/2026/04/Watanabe-Pipe_image1-1024x724.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#E74C3C\'>P</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #E74C3C"></span>
+        PREDGE
+      </div>
+      <div class="card-title">BtoB企業が“仕事の価値”を可視化 渡辺パイプ初CMの狙い</div>
+      
+      <div class="card-summary">渡辺パイプが初のテレビCMを展開。現場のリアルな日常を描きながら、オードリーを起用した演出で視線を引きつけ、仕事の価値を可視化しました。採用課題に向き合い、“理解される”ためのコミュニケーション設計が光る事例です。</div>
+      
+      <div class="card-meta">
+        <span>2026-04-08</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://predge.jp/341122/" target="_blank"
+     data-source="PREDGE" data-published="2026-04-08" data-published-iso="2026-04-08T02:00:25Z">
+    
+    <img class="card-image" src="https://predge.jp/wp-content/uploads/2025/12/Oversea-case.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#E74C3C\'>P</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #E74C3C"></span>
+        PREDGE
+      </div>
+      <div class="card-title">退屈な保険広告をコメディに変える GEICOの保険CM戦略</div>
+      
+      <div class="card-summary">90年代のヒット曲とGEICOのマスコットを掛け合わせたコメディCM。保険という退屈になりがちなカテゴリーでエンタメ性を発揮し続けるGEICOのブランド戦略を読み解きます。</div>
+      
+      <div class="card-meta">
+        <span>2026-04-08</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://predge.jp/341800/" target="_blank"
+     data-source="PREDGE" data-published="2026-04-08" data-published-iso="2026-04-08T01:00:06Z">
+    
+    <img class="card-image" src="https://predge.jp/wp-content/uploads/2026/04/ikea-main-1024x576.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#E74C3C\'>P</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #E74C3C"></span>
+        PREDGE
+      </div>
+      <div class="card-title">20周年のイケアと30周年のポケモンがコラボ デジタルとリアルを横断する体験設計</div>
+      
+      <div class="card-summary">イケア・ジャパンと『ぽこ あ ポケモン』がコラボ。来店時に入手できる特別コードで、ゲーム内の「IKEAアイランド」を訪問できます。スタンプラリーやプレゼント抽選、デコレーションケーキなどの施策も店舗内で展開され、来店を起点にゲームと店内体験が広がる施策です。</div>
+      
+      <div class="card-meta">
+        <span>2026-04-08</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://predge.jp/341815/" target="_blank"
+     data-source="PREDGE" data-published="2026-04-08" data-published-iso="2026-04-08T00:00:56Z">
+    
+    <img class="card-image" src="https://predge.jp/wp-content/uploads/2026/04/glucose1-1024x768.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#E74C3C\'>P</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #E74C3C"></span>
+        PREDGE
+      </div>
+      <div class="card-title">郊外からの通勤導線でエンジニアに訴求 リモート前提の働き方をポジティブに示す採用広告</div>
+      
+      <div class="card-summary">「仕事と暮らそう。」をコンセプトに掲出されたグルコースの駅広告を紹介。郊外の駅を舞台に、リモートワークを前提とした働き方を示し、エンジニアが自身の暮らしと仕事の関係を見つめ直すきっかけを創出する採用広告です。</div>
+      
+      <div class="card-meta">
+        <span>2026-04-08</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://markezine.jp/article/detail/50637" target="_blank"
+     data-source="MarkeZine" data-published="2026-04-07" data-published-iso="2026-04-07T04:00:00Z">
+    
+    <img class="card-image" src="https://markezine.jp/static/images/article/50637/50637_ogp.png"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#FF6B35\'>M</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #FF6B35"></span>
+        MarkeZine
+      </div>
+      <div class="card-title">「実務者が選ぶマーケティング本大賞2026」開催！本日4月7日からWeb投票の受付開始</div>
+      
+      <div class="card-meta">
+        <span>2026-04-07</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://markezine.jp/article/detail/50543" target="_blank"
+     data-source="MarkeZine" data-published="2026-04-07" data-published-iso="2026-04-07T00:00:00Z">
+    
+    <img class="card-image" src="https://markezine.jp/static/images/article/50543/50543_fb_v3.png"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#FF6B35\'>M</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #FF6B35"></span>
+        MarkeZine
+      </div>
+      <div class="card-title">AEO対策、自社が実施するタイミングはいつが効果的？4ステップで取り組む「段階的投資モデル」のススメ</div>
+      
+      <div class="card-summary">AEO（AI検索最適化／回答エンジン最適化）のプロフェッショナルでありSpeeeのマーケティング責任者を務める藤井慧里氏が、AIマーケティングへの投資戦略のポイントを整理していく本連載。第4回では売上へのタイムラグや計測困難性、見落とされがちなブランドセーフティの観点を整理したうえで、Speeeが提</div>
+      
+      <div class="card-meta">
+        <span>2026-04-07</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://markezine.jp/article/detail/50551" target="_blank"
+     data-source="MarkeZine" data-published="2026-04-07" data-published-iso="2026-04-06T23:00:00Z">
+    
+    <img class="card-image" src="https://markezine.jp/static/images/article/50551/50551_fb2.png"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#FF6B35\'>M</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #FF6B35"></span>
+        MarkeZine
+      </div>
+      <div class="card-title">「これはいける！」という直感はなぜ敗れるのか？直感を戦略に変える「1つ目のS：See（観察）」の技術</div>
+      
+      <div class="card-summary">マーケターとしての鋭い直感が、会議室での「根拠になるデータは？」という問いに阻まれ消えていく……そんな経験はないでしょうか。本連載では、積水ハウス イノコムCROの日ノ澤氏が、感性と論理を融合させ、直感を納得感ある戦略へと昇華させる「5Sフレームワーク」を提唱します。第1回は、生成AIを思考のパート</div>
+      
+      <div class="card-meta">
+        <span>2026-04-07</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://markezine.jp/article/detail/50542" target="_blank"
+     data-source="MarkeZine" data-published="2026-04-07" data-published-iso="2026-04-06T22:00:00Z">
+    
+    <img class="card-image" src="https://markezine.jp/static/images/article/50542/50542_fb.png"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#FF6B35\'>M</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #FF6B35"></span>
+        MarkeZine
+      </div>
+      <div class="card-title">買えないなら自作する・言語を超えたアレンジ欲求、2026年前半のSNSトレンドに見る最新インサイト</div>
+      
+      <div class="card-summary">年々、トレンド消費のスピードが速くなっています。2026年に入ってからの3ヵ月の間にも日々、話題の移り変わりが見られました。「トレンドに追いつく前に終わってしまう」「なぜこのコンテンツが流行っているのか分からない」などのお悩みを持つ方も多いのではないでしょうか？今回は、ソーシャルリスニングを得意とす</div>
+      
+      <div class="card-meta">
+        <span>2026-04-07</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://markezine.jp/article/detail/50635" target="_blank"
+     data-source="MarkeZine" data-published="2026-04-07" data-published-iso="2026-04-06T22:00:00Z">
+    
+    <img class="card-image" src="https://markezine.jp/static/images/article/50635/50635_fb.png"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#FF6B35\'>M</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #FF6B35"></span>
+        MarkeZine
+      </div>
+      <div class="card-title">【5/21・オンライン開催】5月のMarkeZine Day、サイト公開・参加受付がスタート！</div>
+      
+      <div class="card-summary">2026年5月21日（木）に開催する「MarkeZine Day 2026 Online」のサイトがオープン、参加登録をスタートしました。この記事では、今回のイベントテーマやスピーカー情報をご紹介します。</div>
+      
+      <div class="card-meta">
+        <span>2026-04-07</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://xtrend.nikkei.com/atcl/seminar/19/00075/00025/?n_cid=nbpnxr_rss" target="_blank"
+     data-source="日経クロストレンド" data-published="2026-04-07" data-published-iso="2026-04-07T09:00:00Z">
+    
+    <img class="card-image" src="https://xtrend.nikkei.com/atcl/seminar/19/00075/00025/nxr_m.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#1A73E8\'>N</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #1A73E8"></span>
+        日経クロストレンド
+      </div>
+      <div class="card-title">Google「AI Overviews」を攻略　ゼロクリック時代にAIに選ばれる5条件</div>
+      
+      <div class="card-summary">「AI Overviews（AI要約）」が本格導入され、「ゼロクリック時代」が到来します。この未来において、企業の商品はどうすればAIエージェントに「推奨候補」として選ばれるでしょうか。著名マーケターの西口一希氏が解説します。</div>
+      
+      <div class="card-meta">
+        <span>2026-04-07</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://xtrend.nikkei.com/atcl/contents/18/00938/00003/?n_cid=nbpnxr_rss" target="_blank"
+     data-source="日経クロストレンド" data-published="2026-04-07" data-published-iso="2026-04-07T07:00:00Z">
+    
+    <img class="card-image" src="https://xtrend.nikkei.com/atcl/contents/18/00938/00003/nxr_m.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#1A73E8\'>N</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #1A73E8"></span>
+        日経クロストレンド
+      </div>
+      <div class="card-title">「どんな生活者と向き合うべきか」　時間軸加味し、質と効率を向上</div>
+      
+      <div class="card-summary">SWOT分析で自社のマーケティング環境を見立てたら、次にやるべきことはマーケティング戦略の立案です。「セグメンテーション」「ターゲティング」「ポジショニング」というステップで実施します。この3ステップは、英語の頭文字を取って「STP」と呼ばれています。まず、セグメンテーションとターゲティングを学びま</div>
+      
+      <div class="card-meta">
+        <span>2026-04-07</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://xtrend.nikkei.com/atcl/contents/18/00681/00164/?n_cid=nbpnxr_rss" target="_blank"
+     data-source="日経クロストレンド" data-published="2026-04-07" data-published-iso="2026-04-07T06:00:00Z">
+    
+    <img class="card-image" src="https://xtrend.nikkei.com/atcl/contents/18/00681/00164/nxr_m.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#1A73E8\'>N</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #1A73E8"></span>
+        日経クロストレンド
+      </div>
+      <div class="card-title">Voicyで配信、日経クロストレンド音声編集部　（4月7日配信分まで）</div>
+      
+      <div class="card-summary">日経クロストレンドでは、音声配信サービス「Voicy」で、ポッドキャスト番組「日経クロストレンド音声編集部」も提供しています。最短3分で分かる、をコンセプトに、つい誰かに話したくなる、マーケティング最前線の話題を毎回ご紹介しています。編集部員がこちらのコンテンツづくりにも力を入れておりますので、　記</div>
+      
+      <div class="card-meta">
+        <span>2026-04-07</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://xtrend.nikkei.com/atcl/contents/18/01359/00004/?n_cid=nbpnxr_rss" target="_blank"
+     data-source="日経クロストレンド" data-published="2026-04-07" data-published-iso="2026-04-06T15:00:00Z">
+    
+    <img class="card-image" src="https://xtrend.nikkei.com/atcl/contents/18/01359/00004/nxr_m.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#1A73E8\'>N</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #1A73E8"></span>
+        日経クロストレンド
+      </div>
+      <div class="card-title">670の資格を持つ「資格ソムリエ」が提唱　“足し算”で強化の法則</div>
+      
+      <div class="card-summary">2026年4月3日発売の「日経トレンディ2026年5月号」では、「得する資格＆副業 最新戦略」を特集。中小企業診断士から、なんと僧侶まで。硬軟合わせて600以上の資格を持つのが“資格ソムリエ”の林雄次氏だ。「“大人の勉強”は、子供や学生の勉強とは大違い」と語る同氏に、資格との出合いや効率的な学習方法</div>
+      
+      <div class="card-meta">
+        <span>2026-04-07</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://xtrend.nikkei.com/atcl/contents/18/00769/00019/?n_cid=nbpnxr_rss" target="_blank"
+     data-source="日経クロストレンド" data-published="2026-04-07" data-published-iso="2026-04-06T15:00:00Z">
+    
+    <img class="card-image" src="https://xtrend.nikkei.com/atcl/contents/18/00769/00019/nxr_m.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#1A73E8\'>N</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #1A73E8"></span>
+        日経クロストレンド
+      </div>
+      <div class="card-title">サンリオ、ヤッホーが独自KPIを定める理由　AIが奪えない企業価値</div>
+      
+      <div class="card-summary">生成AIを活用して言葉や施策の最適化が当たり前になると、企業の差はどこに残るのか。本稿では、サンリオ、ヤッホーブルーイング、光フードサービスという異業種3社の取り組みを通じて、その答えを探る。各社が重視するのは、売り上げや効率では測り切れない、ファンとの関係性や共感、場の熱量である。独自指標の背景を</div>
+      
+      <div class="card-meta">
+        <span>2026-04-07</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://xtrend.nikkei.com/atcl/contents/18/01293/00011/?n_cid=nbpnxr_rss" target="_blank"
+     data-source="日経クロストレンド" data-published="2026-04-07" data-published-iso="2026-04-06T15:00:00Z">
+    
+    <img class="card-image" src="https://xtrend.nikkei.com/atcl/contents/18/01293/00011/nxr_m.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#1A73E8\'>N</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #1A73E8"></span>
+        日経クロストレンド
+      </div>
+      <div class="card-title">KPIに振り回されるマーケター　中間指標をゴールにつなげる方法</div>
+      
+      <div class="card-summary">KPIの達成そのものが目的化してしまう現場は多い。事業目標を達成するための中間指標に過ぎないKPIが、いつしか追いかけるべきゴールになってしまう。では、中間指標を目標達成につなげるポイントはどこにあるのか。筋のいいKPIをどう設定し、どう検証していくのか。マテリアルデジタル取締役の川端康介氏と、ホッ</div>
+      
+      <div class="card-meta">
+        <span>2026-04-07</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://xtrend.nikkei.com/atcl/contents/18/00947/00273/?n_cid=nbpnxr_rss" target="_blank"
+     data-source="日経クロストレンド" data-published="2026-04-07" data-published-iso="2026-04-06T15:00:00Z">
+    
+    <img class="card-image" src="https://xtrend.nikkei.com/atcl/contents/18/00947/00273/nxr_m.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#1A73E8\'>N</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #1A73E8"></span>
+        日経クロストレンド
+      </div>
+      <div class="card-title">中川政七「大日本市」で発見　「祈り」がテーマの工芸ブランドに注目</div>
+      
+      <div class="card-summary">自分の心を整える「祈り」に向けた工芸ブランドが集結──。2026年2月4～6日に東京・恵比寿で中川政七商店が開催した合同展示会「大日本市」に初出展した企業を見ると、そんな特徴があった。自宅に飾る神棚や火打ち石、香りの重視など、メディテーションにつながるブランドが増えた。</div>
+      
+      <div class="card-meta">
+        <span>2026-04-07</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://xtrend.nikkei.com/atcl/contents/18/00819/00059/?n_cid=nbpnxr_rss" target="_blank"
+     data-source="日経クロストレンド" data-published="2026-04-07" data-published-iso="2026-04-06T15:00:00Z">
+    
+    <img class="card-image" src="https://xtrend.nikkei.com/atcl/contents/18/00819/00059/nxr_m.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#1A73E8\'>N</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #1A73E8"></span>
+        日経クロストレンド
+      </div>
+      <div class="card-title">投資家が見る「ブランド」の姿　関心を持たせる3つのポイント</div>
+      
+      <div class="card-summary">投資家にとってブランドとは、企業価値の増大を魅力的に伝えるメディアに他ならない。では、ブランドの価値を正しく伝えるにはどうすべきか。新刊『デジタル時代の基礎知識　ブランディング第2版 事業に貢献するAI時代のブランド論』（翔泳社）の著者で、インサイトフォース代表取締役の山口義宏氏は、「企業が投資家に</div>
+      
+      <div class="card-meta">
+        <span>2026-04-07</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://xtrend.nikkei.com/atcl/contents/watch/00013/02851/?n_cid=nbpnxr_rss" target="_blank"
+     data-source="日経クロストレンド" data-published="2026-04-07" data-published-iso="2026-04-06T15:00:00Z">
+    
+    <img class="card-image" src="https://xtrend.nikkei.com/atcl/contents/watch/00013/02851/nxr_m.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#1A73E8\'>N</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #1A73E8"></span>
+        日経クロストレンド
+      </div>
+      <div class="card-title">124億円かけた「帝国ホテル 京都」開業　わずか55室で挑むホテル競争</div>
+      
+      <div class="card-summary">外資系高級ホテルの進出ラッシュで競争が激化している京都に、東京・上高地・大阪に続く4軒目となる帝国ホテル「帝国ホテル 京都」が2026年3月5日に開業した。1996年開業の「帝国ホテル 大阪」から30年ぶりの新規ホテルとなる。最大の特徴は、国の登録有形文化財「弥栄会館」の一部を保存活用したホテルであ</div>
+      
+      <div class="card-meta">
+        <span>2026-04-07</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://xtrend.nikkei.com/atcl/contents/18/00109/00222/?n_cid=nbpnxr_rss" target="_blank"
+     data-source="日経クロストレンド" data-published="2026-04-07" data-published-iso="2026-04-06T15:00:00Z">
+    
+    <img class="card-image" src="https://xtrend.nikkei.com/atcl/contents/18/00109/00222/nxr_m.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#1A73E8\'>N</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #1A73E8"></span>
+        日経クロストレンド
+      </div>
+      <div class="card-title">「弱さを見せられない人」ほどAIを頼る　SXSWで語られた「AIの暗部」</div>
+      
+      <div class="card-summary">高度化を続けるAIの社会実装が急速に進んでいる。カルチャーとテクノロジーの祭典「SXSW」では、AI時代への適応だけでなく、「AIの暗部」に焦点を当てた議論が目立った。便利さに身を委ねることで、知性や身体、感情までも人々が無自覚に依存するようになったとき、何が待ち受けるのか。AI時代を生き抜くヒント</div>
+      
+      <div class="card-meta">
+        <span>2026-04-07</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://xtrend.nikkei.com/atcl/contents/18/01361/00002/?n_cid=nbpnxr_rss" target="_blank"
+     data-source="日経クロストレンド" data-published="2026-04-07" data-published-iso="2026-04-06T15:00:00Z">
+    
+    <img class="card-image" src="https://xtrend.nikkei.com/atcl/contents/18/01361/00002/nxr_m.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#1A73E8\'>N</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #1A73E8"></span>
+        日経クロストレンド
+      </div>
+      <div class="card-title">AIリサーチで新商品アイデアを生む劇的発想法　「ありきたり」から脱却</div>
+      
+      <div class="card-summary">将来から逆算的に今するべきことを見いだす「AIリサーチ」の魅力や手順を解説する本特集。過去を起点にしてプロセスを考えるのがこれまでのマーケティングだとすれば、AIリサーチは未来などを仮想シミュレーションし、そこを起点に考える新しいマーケティング手法だ。2回目は、的確な商品企画案を、理論を交えてAIに</div>
+      
+      <div class="card-meta">
+        <span>2026-04-07</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://xtrend.nikkei.com/atcl/contents/18/01227/00016/?n_cid=nbpnxr_rss" target="_blank"
+     data-source="日経クロストレンド" data-published="2026-04-07" data-published-iso="2026-04-06T15:00:00Z">
+    
+    <img class="card-image" src="https://xtrend.nikkei.com/atcl/contents/18/01227/00016/nxr_m.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#1A73E8\'>N</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #1A73E8"></span>
+        日経クロストレンド
+      </div>
+      <div class="card-title">組織の「戦略実行力」を測るチェックリスト　3つの課題別処方箋</div>
+      
+      <div class="card-summary">戦略が現場で実行されないとき、多くの管理職は意識の問題や連携不足を原因に挙げる。しかし実は、現場が動かない理由の大半は人ではなく、戦略と組織構造の「ずれ」にある。評価指標、権限設計、組織の単位が旧来の戦略に最適化されたままでは、どれほど正しい戦略を掲げても実行されない。本稿では300Bridge代表</div>
+      
+      <div class="card-meta">
+        <span>2026-04-07</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://xtrend.nikkei.com/atcl/contents/casestudy/00012/01843/?n_cid=nbpnxr_rss" target="_blank"
+     data-source="日経クロストレンド" data-published="2026-04-07" data-published-iso="2026-04-06T15:00:00Z">
+    
+    <img class="card-image" src="https://xtrend.nikkei.com/atcl/contents/casestudy/00012/01843/nxr_m.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#1A73E8\'>N</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #1A73E8"></span>
+        日経クロストレンド
+      </div>
+      <div class="card-title">ホットケーキを「おつまみ化」　堂本剛発案の新需要開拓で計画比2.5倍</div>
+      
+      <div class="card-summary">ホットケーキは「酒のおつまみ」になり、家族や友人と楽しむ「ホットケーキパーティー」の主役にもなる。こうした新しい喫食シーンを提案し、計画の2.5倍のスピードで出荷されているのが、昭和産業が2026年3月に投入したホットケーキミックスだ。タレントの堂本剛のアイデアを色濃く反映し、薄く小さく、強く塩味を</div>
+      
+      <div class="card-meta">
+        <span>2026-04-07</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://xtrend.nikkei.com/atcl/contents/18/00079/00345/?n_cid=nbpnxr_rss" target="_blank"
+     data-source="日経クロストレンド" data-published="2026-04-07" data-published-iso="2026-04-06T15:00:00Z">
+    
+    <img class="card-image" src="https://xtrend.nikkei.com/atcl/contents/18/00079/00345/nxr_m.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#1A73E8\'>N</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #1A73E8"></span>
+        日経クロストレンド
+      </div>
+      <div class="card-title">プライバシー第一の“生成AI”　データをビッグテックに渡さない仕組み</div>
+      
+      <div class="card-summary">米OpenAIや米Anthropicに追跡されずに各社のLLMを使えたらいいと思ったことがある人は少なくないだろう。今ならDuck.aiのおかげで、その願いが実現できるようになった。自身のデータをビッグテックに委ねたくない人には朗報だ。</div>
+      
+      <div class="card-meta">
+        <span>2026-04-07</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://xtrend.nikkei.com/atcl/contents/casestudy/00012/01842/?n_cid=nbpnxr_rss" target="_blank"
+     data-source="日経クロストレンド" data-published="2026-04-07" data-published-iso="2026-04-06T15:00:00Z">
+    
+    <img class="card-image" src="https://xtrend.nikkei.com/atcl/contents/casestudy/00012/01842/nxr_m.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#1A73E8\'>N</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #1A73E8"></span>
+        日経クロストレンド
+      </div>
+      <div class="card-title">ソニーとパナソニック出身者が仕掛けるカフェ　60種類のドリンク体験</div>
+      
+      <div class="card-summary">これまでにないリユースカップ式ドリンクサービスを提供するカフェ「NOMU Shibuya」がオープンした。100万通りのバリエーションを可能にするドリンク調合技術を進化させ、環境配慮と楽しさを両立する新たな体験を提案する。ソニー出身のCEOとパナソニック出身のデザイナーが率いる異色チームが立ち上げた</div>
+      
+      <div class="card-meta">
+        <span>2026-04-07</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://www.advertimes.com/20260407/article540555/?utm_source=feed" target="_blank"
+     data-source="AdverTimes" data-published="2026-04-07" data-published-iso="2026-04-07T08:14:16Z">
+    
+    <img class="card-image" src="https://cdn.advertimes.com/wp-content/uploads/2026/04/tempstaff_sukisuki_ogp-1200x630.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#34A853\'>A</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #34A853"></span>
+        AdverTimes
+      </div>
+      <div class="card-title">縦型コメディ1億回再生のIP活用　テンプスタッフがTikTok広告を開始</div>
+      
+      <div class="card-summary">パーソルテンプスタッフは、縦型ショートコメディ「スキマのすきぴ。」のIPを活用した広告キャンペーンを4月2日から開始した。TikTokやBeReal.を中心に展開し、若年層との接点強化を図る。
+The post 縦型コメディ1億回再生のIP活用　テンプスタッフがTikTok広告を開始 first a</div>
+      
+      <div class="card-meta">
+        <span>2026-04-07</span>
+        
+        <span class="card-category">新着記事</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://www.advertimes.com/20260407/article540303/?utm_source=feed" target="_blank"
+     data-source="AdverTimes" data-published="2026-04-07" data-published-iso="2026-04-07T08:06:39Z">
+    
+    <img class="card-image" src="https://cdn.advertimes.com/wp-content/uploads/2026/04/ip-business_ogp-1200x630.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#34A853\'>A</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #34A853"></span>
+        AdverTimes
+      </div>
+      <div class="card-title">アニメ制作スタジオに初の資本参加、その狙いは？　アニプレックス、Crunchyroll共同出資のHAYATEがLay-duceを子会社化</div>
+      
+      <div class="card-summary">HAYATEは4月3日、Lay-duceの全株式を取得し、完全子会社化することを決定したと発表した。HAYATEがアニメ制作スタジオに資本参加を行うのは、本件が初めて。
+The post アニメ制作スタジオに初の資本参加、その狙いは？　アニプレックス、Crunchyroll共同出資のHAYATEがL</div>
+      
+      <div class="card-meta">
+        <span>2026-04-07</span>
+        
+        <span class="card-category">新着記事</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://www.advertimes.com/20260407/article540566/?utm_source=feed" target="_blank"
+     data-source="AdverTimes" data-published="2026-04-07" data-published-iso="2026-04-07T08:02:30Z">
+    
+    <img class="card-image" src="https://cdn.advertimes.com/wp-content/uploads/2026/04/ogp-11-1200x630.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#34A853\'>A</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #34A853"></span>
+        AdverTimes
+      </div>
+      <div class="card-title">言葉が働く仕組みを理解し、意図して再現できるようにするために（新刊『「意味」ではなく「機能」から組み立てる　働く言葉』はじめに公開）</div>
+      
+      <div class="card-summary">「宣伝会議のこの本、どんな本」では、当社が刊行した書籍の内容と性格を感じていただけるよう、「はじめに」や識者による本の解説を掲載しています。今回は、3月30日に発売した新刊『「意味」ではなく「機能」から組み立てる　働く言葉』（井手康喬 著）の「はじめに」の一部をご紹介します。
+The post 言葉</div>
+      
+      <div class="card-meta">
+        <span>2026-04-07</span>
+        
+        <span class="card-category">コラム</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://www.advertimes.com/20260407/article540573/?utm_source=feed" target="_blank"
+     data-source="AdverTimes" data-published="2026-04-07" data-published-iso="2026-04-07T07:38:32Z">
+    
+    <img class="card-image" src="https://cdn.advertimes.com/wp-content/uploads/2026/04/liccanortha_ogp-1200x630.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#34A853\'>A</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #34A853"></span>
+        AdverTimes
+      </div>
+      <div class="card-title">「リカちゃん」北米展開　葬送のフリーレンなど人気日本IPコラボで世界へ</div>
+      
+      <div class="card-summary">タカラトミーはこのほど、着せ替え人形「リカちゃん」を2026年3月下旬から北米市場で順次展開開始した。
+The post 「リカちゃん」北米展開　葬送のフリーレンなど人気日本IPコラボで世界へ first appeared on AdverTimes.（アドタイ） by 宣伝会議.</div>
+      
+      <div class="card-meta">
+        <span>2026-04-07</span>
+        
+        <span class="card-category">新着記事</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://www.advertimes.com/20260407/article540530/?utm_source=feed" target="_blank"
+     data-source="AdverTimes" data-published="2026-04-07" data-published-iso="2026-04-07T07:25:40Z">
+    
+    <img class="card-image" src="https://cdn.advertimes.com/wp-content/uploads/2026/04/anime_ellen-the-southpaw_pv_ogp-1200x630.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#34A853\'>A</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #34A853"></span>
+        AdverTimes
+      </div>
+      <div class="card-title">アニメ「左ききのエレン」PVが刺さった理由　“天才と凡人” の対比をどう映像化したか</div>
+      
+      <div class="card-summary">広告代理店を舞台にしたテレビアニメ「左ききのエレン」のプロモーションビデオ（PV）は、いかにして視聴者の心を掴んだのか。作品の宣伝を手掛けたギャガの宣伝プロデューサー岡本菫氏、PV制作を担ったガル・エンタープライズのディレクター畠山綾氏と高野雄登氏への取材を通じ、そのクリエイティブの裏側を明らかにす</div>
+      
+      <div class="card-meta">
+        <span>2026-04-07</span>
+        
+        <span class="card-category">新着記事</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://www.advertimes.com/20260407/article540594/?utm_source=feed" target="_blank"
+     data-source="AdverTimes" data-published="2026-04-07" data-published-iso="2026-04-07T07:02:05Z">
+    
+    <img class="card-image" src="https://cdn.advertimes.com/wp-content/uploads/2026/04/charge01-1200x630.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#34A853\'>A</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #34A853"></span>
+        AdverTimes
+      </div>
+      <div class="card-title">驚くべき“timelesz旋風”、起用効果は認知向上にとどまらず　CHARGESPOTが明かした反響と新CMの狙い</div>
+      
+      <div class="card-summary">INFORICH（東京・渋谷）は4月2日から、男性アイドルグループtimelesz（タイムレス）を起用したスマホ充電レンタルサービス「CHARGESPOT（チャージスポット）」の新テレビCM「充電ない？借りれば良くない？」篇を放映している。
+The post 驚くべき“timelesz旋風”、起用効</div>
+      
+      <div class="card-meta">
+        <span>2026-04-07</span>
+        
+        <span class="card-category">新着記事</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://www.advertimes.com/20260407/article540554/?utm_source=feed" target="_blank"
+     data-source="AdverTimes" data-published="2026-04-07" data-published-iso="2026-04-07T06:27:08Z">
+    
+    <img class="card-image" src="https://cdn.advertimes.com/wp-content/uploads/2026/04/mcdonalds-1200x630.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#34A853\'>A</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #34A853"></span>
+        AdverTimes
+      </div>
+      <div class="card-title">ベーコンポテトパイなのに泣ける　ケツメイシ「さくら」21年後を再現したマクドナルド新CM　鈴木えみが母親役で再登場</div>
+      
+      <div class="card-summary">日本マクドナルドは、春の定番商品「ベーコンポテトパイ」を4月8日から期間限定で全国のマクドナルド店舗で販売する。
+The post ベーコンポテトパイなのに泣ける　ケツメイシ「さくら」21年後を再現したマクドナルド新CM　鈴木えみが母親役で再登場 first appeared on AdverTim</div>
+      
+      <div class="card-meta">
+        <span>2026-04-07</span>
+        
+        <span class="card-category">新着記事</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://www.advertimes.com/20260407/article540492/?utm_source=feed" target="_blank"
+     data-source="AdverTimes" data-published="2026-04-07" data-published-iso="2026-04-07T06:19:33Z">
+    
+    <img class="card-image" src="https://cdn.advertimes.com/wp-content/uploads/2026/04/masslemart_ogp-1200x630.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#34A853\'>A</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #34A853"></span>
+        AdverTimes
+      </div>
+      <div class="card-title">マッチョ店員の接客が話題に、約1000人が来店　JA全農「マッスルマート」が盛況</div>
+      
+      <div class="card-summary">JA全農が推進するスキムミルク（脱脂粉乳）の認知拡大と利用促進施策として、カヤックが企画・制作した体験型コンビニエンスストア「マッスルマート」が、3月28日と29日の2日間限定で渋谷にオープンした。
+The post マッチョ店員の接客が話題に、約1000人が来店　JA全農「マッスルマート」が盛況 </div>
+      
+      <div class="card-meta">
+        <span>2026-04-07</span>
+        
+        <span class="card-category">新着記事</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://www.advertimes.com/20260407/article540374/?utm_source=feed" target="_blank"
+     data-source="AdverTimes" data-published="2026-04-07" data-published-iso="2026-04-07T04:58:40Z">
+    
+    <img class="card-image" src="https://cdn.advertimes.com/wp-content/uploads/2026/04/p-morishima_gakushuin_etraining_ogp-1200x630.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#34A853\'>A</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #34A853"></span>
+        AdverTimes
+      </div>
+      <div class="card-title">なぜ社内教育は「受け身」で終わるのか。守島基博教授に聞く、アクティブラーニングへの転換点</div>
+      
+      <div class="card-summary">人材教育のために、企業はこぞってeラーニングを導入している。しかし、現場では義務的な消化に留まっており、成果につながる本質的な学びにはなかなか繋がらないという現状がある。
+人事マネジメント・組織行動論の第一人者である学習院大学の守島基博教授は、真の「アクティブラーニング」の実践には、個人のキャリア意</div>
+      
+      <div class="card-meta">
+        <span>2026-04-07</span>
+        
+        <span class="card-category">新着記事</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://www.advertimes.com/20260407/article540260/?utm_source=feed" target="_blank"
+     data-source="AdverTimes" data-published="2026-04-07" data-published-iso="2026-04-07T03:03:10Z">
+    
+    <img class="card-image" src="https://cdn.advertimes.com/wp-content/uploads/2026/04/acc2025_ogp-e1775200995702-1200x630.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#34A853\'>A</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #34A853"></span>
+        AdverTimes
+      </div>
+      <div class="card-title">作品そのものをカバービジュアルの主役に、ADが語る『ACC 日本のクリエイティビティ2025』のデザイン</div>
+      
+      <div class="card-summary">2026年3月19日に発売となった『ACC 日本のクリエイティビティ2025』（編集：一般社団法人 ACC）。本書は、「2025 65th ACC TOKYO CREATIVITY AWARDS」全入賞作品を収録した年鑑で、2025年を代表するクリエイティブ約400点をアーカイブしている。
+The </div>
+      
+      <div class="card-meta">
+        <span>2026-04-07</span>
+        
+        <span class="card-category">コラム</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://www.advertimes.com/20260407/article540476/?utm_source=feed" target="_blank"
+     data-source="AdverTimes" data-published="2026-04-07" data-published-iso="2026-04-07T02:17:24Z">
+    
+    <img class="card-image" src="https://cdn.advertimes.com/wp-content/uploads/2026/03/book_reiwa-senior_ogp-1200x630.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#34A853\'>A</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #34A853"></span>
+        AdverTimes
+      </div>
+      <div class="card-title">令和シニアの不満「なぜ、検索しても自分向けの『答え』が見つからないのか」</div>
+      
+      <div class="card-summary">高度経済成長期に生まれた「新人類」が還暦を迎え、シニア世代となっている。3月25日に発売した新刊『THE FRONTLINE GENERATION 令和シニア なぜいまZ世代マーケターは60代に「未来」を見るのか？』（博報堂ストラテジックプラニング局、Hakuhodo DY ONE著）では、60代と</div>
+      
+      <div class="card-meta">
+        <span>2026-04-07</span>
+        
+        <span class="card-category">コラム</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://www.advertimes.com/20260407/article540440/?utm_source=feed" target="_blank"
+     data-source="AdverTimes" data-published="2026-04-07" data-published-iso="2026-04-07T00:03:44Z">
+    
+    <img class="card-image" src="https://cdn.advertimes.com/wp-content/uploads/2026/04/youtrust_webcm_ooh_ogp-1200x630.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#34A853\'>A</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #34A853"></span>
+        AdverTimes
+      </div>
+      <div class="card-title">令和ロマン、森香澄、HIKAKIN起用　YOUTRUSTがWebCMや表参道駅OOH展開</div>
+      
+      <div class="card-summary">キャリアSNS運営のYOUTRUST（ユートラスト）は4月6日、仕事専用SNS「YOUTRUST」のWebCM「#ユートラストはじめました」3篇を同時公開した。起用したのは令和ロマン、森香澄、HIKAKIN。同日から東京メトロ表参道駅でのOOH「100人の#ユートラストはじめました」も始め、あわせて</div>
+      
+      <div class="card-meta">
+        <span>2026-04-07</span>
+        
+        <span class="card-category">新着記事</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://dentsu-ho.com/articles/9685" target="_blank"
+     data-source="電通報" data-published="2026-04-07" data-published-iso="">
+    
+    <img class="card-image" src="https://cdn.speedsize.com/e7df76a9-4406-40f5-bc97-57e7c2c2d99d/https://cdn.dentsu-ho.com/3899e072-3644-4b90-8551-c001b56c332a/new-a-branding03_top.jpg/f_auto,w_3840"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#9B59B6\'>D</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #9B59B6"></span>
+        電通報
+      </div>
+      <div class="card-title">押さえておきたいブランディングの視点 ─経済的価値、社会的価値、ブランド価値 ─</div>
+      
+      <div class="card-meta">
+        <span>2026-04-07</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://dentsu-ho.com/articles/9682" target="_blank"
+     data-source="電通報" data-published="2026-04-07" data-published-iso="">
+    
+    <img class="card-image" src="https://cdn.speedsize.com/e7df76a9-4406-40f5-bc97-57e7c2c2d99d/https://cdn.dentsu-ho.com/531f5b00-0f51-4a1a-8e1e-b73891fe8a1d/fcc28_top.jpg/f_auto,w_3840"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#9B59B6\'>D</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #9B59B6"></span>
+        電通報
+      </div>
+      <div class="card-title">「青」の再解釈から始まった、みずほのコーポレートブランディングプロジェクトとは</div>
+      
+      <div class="card-meta">
+        <span>2026-04-07</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://predge.jp/341708/" target="_blank"
+     data-source="PREDGE" data-published="2026-04-07" data-published-iso="2026-04-07T04:00:09Z">
+    
+    <img class="card-image" src="https://predge.jp/wp-content/uploads/2026/04/matsuken_anime01-1024x683.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#E74C3C\'>P</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #E74C3C"></span>
+        PREDGE
+      </div>
+      <div class="card-title">あのマツケンサンバがアニメに 楽曲資産をキャラクターIPへ転換する新展開</div>
+      
+      <div class="card-summary">「マツケンサンバ」の楽曲資産をキャラクターIPへ転換し、YouTubeアニメを起点に商品化・タイアップ・イベントへと展開する、6社共同のIPプロジェクト事例です。</div>
+      
+      <div class="card-meta">
+        <span>2026-04-07</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://predge.jp/341551/" target="_blank"
+     data-source="PREDGE" data-published="2026-04-07" data-published-iso="2026-04-07T03:00:26Z">
+    
+    <img class="card-image" src="https://predge.jp/wp-content/uploads/2026/04/NAKAGAWA-CANAL-DOORS01.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#E74C3C\'>P</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #E74C3C"></span>
+        PREDGE
+      </div>
+      <div class="card-title">名古屋にそびえる7mのぴよりん！ 新スポットを盛り上げるクラウドファンディング設計</div>
+      
+      <div class="card-summary">累計販売数500万個超のぴよりんが初のクラウドファンディングを実施。新幹線から見える7mの巨大バルーン設置を軸に、地域連携・ファン参加・施設開業支援をひとつの企画に束ねたIPマーケティングの事例です。</div>
+      
+      <div class="card-meta">
+        <span>2026-04-07</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://predge.jp/341205/" target="_blank"
+     data-source="PREDGE" data-published="2026-04-07" data-published-iso="2026-04-07T02:00:54Z">
+    
+    <img class="card-image" src="https://predge.jp/wp-content/uploads/2025/12/Oversea-case.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#E74C3C\'>P</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #E74C3C"></span>
+        PREDGE
+      </div>
+      <div class="card-title">ローカルからグローバルへ K-POPアイドルを起用した辛ラーメンの新CM</div>
+      
+      <div class="card-summary">韓国語を使わず、K-POPアーティストと多国籍キャストで世界市場を狙う辛ラーメンの新CM。ローカルブランドをグローバルコンテンツに変えるカルチャー活用の戦略を読み解きます。</div>
+      
+      <div class="card-meta">
+        <span>2026-04-07</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://predge.jp/341679/" target="_blank"
+     data-source="PREDGE" data-published="2026-04-07" data-published-iso="2026-04-07T01:00:13Z">
+    
+    <img class="card-image" src="https://predge.jp/wp-content/uploads/2026/04/yojiya01.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#E74C3C\'>P</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #E74C3C"></span>
+        PREDGE
+      </div>
+      <div class="card-title">おみやげの店から“おなじみ”の店へ｜脱・観光依存を掲げるよーじやのリブランディング</div>
+      
+      <div class="card-summary">京都の定番みやげを取り扱う「よーじや」は、2026年4月に清水産寧坂店を敷地内の通りに面した場所に移設しリニューアルオープン。「脱・観光依存」を掲げ、創業当初の原点に立ち返った“日常使いのブランド”を目指すリブランディングを実施します。</div>
+      
+      <div class="card-meta">
+        <span>2026-04-07</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://markezine.jp/article/detail/50634" target="_blank"
+     data-source="MarkeZine" data-published="2026-04-06" data-published-iso="2026-04-06T07:00:00Z">
+    
+    <img class="card-image" src="https://markezine.jp/static/images/article/50634/50634_fb.png"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#FF6B35\'>M</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #FF6B35"></span>
+        MarkeZine
+      </div>
+      <div class="card-title">Hakuhodo DY ONE、杉原剛氏のエグゼクティブ・アドバイザー就任を発表</div>
+      
+      <div class="card-meta">
+        <span>2026-04-06</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://markezine.jp/article/detail/50630" target="_blank"
+     data-source="MarkeZine" data-published="2026-04-06" data-published-iso="2026-04-06T04:00:00Z">
+    
+    <img class="card-image" src="https://markezine.jp/static/images/article/50630/50630_fb.png"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#FF6B35\'>M</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #FF6B35"></span>
+        MarkeZine
+      </div>
+      <div class="card-title">電通、特化型AIペルソナ搭載「AI For Growth Talk」を正式運用開始</div>
+      
+      <div class="card-meta">
+        <span>2026-04-06</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://markezine.jp/article/detail/50629" target="_blank"
+     data-source="MarkeZine" data-published="2026-04-06" data-published-iso="2026-04-06T03:30:00Z">
+    
+    <img class="card-image" src="https://markezine.jp/static/images/article/50629/50629_fb.png"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#FF6B35\'>M</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #FF6B35"></span>
+        MarkeZine
+      </div>
+      <div class="card-title">東京メトロ・unerryら3社、移動データを核としたイベント支援サービスの提供を開始</div>
+      
+      <div class="card-meta">
+        <span>2026-04-06</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://markezine.jp/article/detail/50614" target="_blank"
+     data-source="MarkeZine" data-published="2026-04-06" data-published-iso="2026-04-06T00:00:00Z">
+    
+    <img class="card-image" src="https://markezine.jp/static/images/article/50614/50614_fb.png"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#FF6B35\'>M</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #FF6B35"></span>
+        MarkeZine
+      </div>
+      <div class="card-title">Xから予測する2026年春の美容トレンド　「防御美容」が本格化、日本ブランドへの信頼回帰も</div>
+      
+      <div class="card-summary">「整える」から「守って持たせる」へ──。SNSデータから見えてきたのは、美容に対する生活者の意識のシフトでした。スパイスボックスのSocial Insight Lab.がX投稿を徹底分析し、「似合わせ盛り」や「防御美容」といった直近のトレンドを紐解きながら、2026年春の美容需要を予測したレポートを</div>
+      
+      <div class="card-meta">
+        <span>2026-04-06</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://markezine.jp/article/detail/50592" target="_blank"
+     data-source="MarkeZine" data-published="2026-04-06" data-published-iso="2026-04-05T23:00:00Z">
+    
+    <img class="card-image" src="https://markezine.jp/static/images/article/50592/50592_fb2.png"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#FF6B35\'>M</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #FF6B35"></span>
+        MarkeZine
+      </div>
+      <div class="card-title">「激レアバイト」はいかにして年間100万応募を生んだのか？コモディティ市場を制す戦略の作り方</div>
+      
+      <div class="card-summary">コモディティ化した市場で、いかにして競合差別化をするか。マーケティング担当者なら誰もが抱えるこの難題に対し、本連載では「戦略策定」の重要性を説いてきました。今回はその最終ステップとして、筆者がリクルート時代に手掛けた大ヒット施策「激レアバイト」の誕生秘話を公開。「戦略とは勝ち筋と数値である」という定</div>
+      
+      <div class="card-meta">
+        <span>2026-04-06</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://markezine.jp/article/detail/50618" target="_blank"
+     data-source="MarkeZine" data-published="2026-04-06" data-published-iso="2026-04-05T22:00:00Z">
+    
+    <img class="card-image" src="https://markezine.jp/static/images/article/50618/50618_share.png"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#FF6B35\'>M</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #FF6B35"></span>
+        MarkeZine
+      </div>
+      <div class="card-title">翔泳社、Amazonで「紙の本のまとめ買い」をすると最大15％ポイント還元　4月19日まで</div>
+      
+      <div class="card-meta">
+        <span>2026-04-06</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://xtrend.nikkei.com/atcl/contents/18/00938/00002/?n_cid=nbpnxr_rss" target="_blank"
+     data-source="日経クロストレンド" data-published="2026-04-06" data-published-iso="2026-04-06T07:00:00Z">
+    
+    <img class="card-image" src="https://xtrend.nikkei.com/atcl/contents/18/00938/00002/nxr_m.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#1A73E8\'>N</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #1A73E8"></span>
+        日経クロストレンド
+      </div>
+      <div class="card-title">よく知られる「SWOT分析」の落とし穴　自社資源のリスクを見極めよ</div>
+      
+      <div class="card-summary">マーケティングプロセスのファーストステップが、「環境分析」です。自社が置かれている環境変化を正しく理解した上で事業戦略やマーケティング戦略を考えるためにも、避けては通れません。正しく環境分析ができれば、課題設定がスムーズになり、効果的なマーケティング戦略立案も可能になります。</div>
+      
+      <div class="card-meta">
+        <span>2026-04-06</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://xtrend.nikkei.com/info/podcast/19/00399/?n_cid=nbpnxr_rss" target="_blank"
+     data-source="日経クロストレンド" data-published="2026-04-06" data-published-iso="2026-04-05T20:00:00Z">
+    
+    <img class="card-image" src="https://xtrend.nikkei.com/info/podcast/19/00399/nxr_m.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#1A73E8\'>N</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #1A73E8"></span>
+        日経クロストレンド
+      </div>
+      <div class="card-title">「得する資格＆副業」資格編</div>
+      
+      <div class="card-summary">編集部のトレンド・キーワード解説を音声で聴けるポッドキャスト。前半の最新トレンドをチェックする「WEEKLY TREND KEYWORDS」では、米国発のクローズドなSNS「yope」とコロナ禍以降急成長を遂げている相席ラウンジの「オリエンタルラウンジ」をピックアップ。後半は「『得する資格＆副業』資</div>
+      
+      <div class="card-meta">
+        <span>2026-04-06</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://xtrend.nikkei.com/atcl/contents/18/01354/00002/?n_cid=nbpnxr_rss" target="_blank"
+     data-source="日経クロストレンド" data-published="2026-04-06" data-published-iso="2026-04-05T15:01:00Z">
+    
+    <img class="card-image" src="https://xtrend.nikkei.com/atcl/contents/18/01354/00002/nxr_m.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#1A73E8\'>N</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #1A73E8"></span>
+        日経クロストレンド
+      </div>
+      <div class="card-title">AIO対策の誤解と勘違い　AIの“養分”から抜け出す顧客接点のつくり方</div>
+      
+      <div class="card-summary">AI検索の普及によって、企業の情報発信と検索流入の前提は大きく揺らぎ始めている。AIO対策への関心・重要性が高まる一方で、何を優先して取り組むべきかは見えにくいままだ。従来のSEOを続ければ足りるのか、あるいはAI検索専用の対策があるのか。SEOの第一人者・住太陽氏が、AI検索対策をめぐる誤解や思い</div>
+      
+      <div class="card-meta">
+        <span>2026-04-06</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://xtrend.nikkei.com/atcl/contents/18/01359/00003/?n_cid=nbpnxr_rss" target="_blank"
+     data-source="日経クロストレンド" data-published="2026-04-06" data-published-iso="2026-04-05T15:00:00Z">
+    
+    <img class="card-image" src="https://xtrend.nikkei.com/atcl/contents/18/01359/00003/nxr_m.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#1A73E8\'>N</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #1A73E8"></span>
+        日経クロストレンド
+      </div>
+      <div class="card-title">「オルカン全振り」投資に落とし穴　高配当株＋金で“鉄壁”を築く</div>
+      
+      <div class="card-summary">2026年4月3日発売の「日経トレンディ2026年5月号」では、「得する資格＆副業 最新戦略」を特集。「6万円」も目前かに見えた日経平均株価だが、3月以降は相場が調整局面に入っており、資産配分の見直しが急務だ。分散投資による“守り”の強化の観点からは、初心者に多かった「オルカン全振り」はリスクが残る</div>
+      
+      <div class="card-meta">
+        <span>2026-04-06</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://www.advertimes.com/20260406/article540466/?utm_source=feed" target="_blank"
+     data-source="AdverTimes" data-published="2026-04-06" data-published-iso="2026-04-06T08:17:52Z">
+    
+    <img class="card-image" src="https://cdn.advertimes.com/wp-content/uploads/2026/04/ogp-10-1200x630.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#34A853\'>A</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #34A853"></span>
+        AdverTimes
+      </div>
+      <div class="card-title">営業利益46億円→5100万　ドンキが買収した老舗スーパー「オリンピック」、値下げとコスト増で深まった苦境</div>
+      
+      <div class="card-summary">ディスカウント大手「ドン・キホーテ」を運営するパン・パシフィック・インターナショナルホールディングス（PPIH）は4月6日、中堅スーパーの「オリンピック」を買収すると発表した。
+The post 営業利益46億円→5100万　ドンキが買収した老舗スーパー「オリンピック」、値下げとコスト増で深まった苦</div>
+      
+      <div class="card-meta">
+        <span>2026-04-06</span>
+        
+        <span class="card-category">新着記事</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://www.advertimes.com/20260406/article540389/?utm_source=feed" target="_blank"
+     data-source="AdverTimes" data-published="2026-04-06" data-published-iso="2026-04-06T07:54:08Z">
+    
+    <img class="card-image" src="https://cdn.advertimes.com/wp-content/uploads/2026/04/eren_ogp-1200x630.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#34A853\'>A</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #34A853"></span>
+        AdverTimes
+      </div>
+      <div class="card-title">渋谷ジャックで話題化　テレ東アニメ3作品、名言OOHとSNS拡散の相乗効果</div>
+      
+      <div class="card-summary">テレビ東京が2026年4月期の新作アニメのプロモーションとして、3月下旬、渋谷、新宿、池袋の都内主要エリアで大規模な屋外広告（OOH）展開を実施した。
+The post 渋谷ジャックで話題化　テレ東アニメ3作品、名言OOHとSNS拡散の相乗効果 first appeared on AdverTime</div>
+      
+      <div class="card-meta">
+        <span>2026-04-06</span>
+        
+        <span class="card-category">新着記事</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://www.advertimes.com/20260406/article540396/?utm_source=feed" target="_blank"
+     data-source="AdverTimes" data-published="2026-04-06" data-published-iso="2026-04-06T07:52:18Z">
+    
+    <img class="card-image" src="https://cdn.advertimes.com/wp-content/uploads/2026/04/rikenvitamin_fueruwakame_ec_ogp-1200x630.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#34A853\'>A</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #34A853"></span>
+        AdverTimes
+      </div>
+      <div class="card-title">発売50周年の「ふえるわかめちゃん」、新聞広告で三陸と未来に想いを馳せるメッセージを発信</div>
+      
+      <div class="card-summary">理研ビタミンは、「ふえるわかめちゃん」および「ふえるわかめちゃん三陸」の15段新聞広告を、3月13日に出稿した。
+The post 発売50周年の「ふえるわかめちゃん」、新聞広告で三陸と未来に想いを馳せるメッセージを発信 first appeared on AdverTimes.（アドタイ） by </div>
+      
+      <div class="card-meta">
+        <span>2026-04-06</span>
+        
+        <span class="card-category">新着記事</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://www.advertimes.com/20260406/article540403/?utm_source=feed" target="_blank"
+     data-source="AdverTimes" data-published="2026-04-06" data-published-iso="2026-04-06T07:18:46Z">
+    
+    <img class="card-image" src="https://cdn.advertimes.com/wp-content/uploads/2026/04/takaichi-s_x_shortage_ec_ogp-1200x630.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#34A853\'>A</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #34A853"></span>
+        AdverTimes
+      </div>
+      <div class="card-title">トイレットペーパー騒動の二の舞か、繰り返される “品薄パニック”　供給不安をあおる “無責任メディア” に高市首相と業界団体が反論</div>
+      
+      <div class="card-summary">石油やナフサの供給不安を強調する報道や情報が広がる中、政府や業界団体が相次いで声明を発している。高市早苗首相は4月5日、自身のXで一部報道番組の内容に反論した。石油化学工業協会や石油連盟も在庫水準や代替調達の状況を説明しているほか、日本LPガス協会や日本家庭紙工業会も、それぞれの分野で供給への影響や</div>
+      
+      <div class="card-meta">
+        <span>2026-04-06</span>
+        
+        <span class="card-category">新着記事</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://www.advertimes.com/20260406/article540281/?utm_source=feed" target="_blank"
+     data-source="AdverTimes" data-published="2026-04-06" data-published-iso="2026-04-06T06:59:07Z">
+    
+    <img class="card-image" src="https://cdn.advertimes.com/wp-content/uploads/2026/04/myon05-1200x630.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#34A853\'>A</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #34A853"></span>
+        AdverTimes
+      </div>
+      <div class="card-title">“おひなさま”こと長浜広奈起用の「辛ミョン」　“オシャレかわいい”ブランド目指すCMのこだわりとは？</div>
+      
+      <div class="card-summary">日清食品は3月23日から、新ブランド「辛（カラ）ミョン」の発売を開始。発売に伴い、同日からはテレビCM「キミはやなこと流してくれる」篇の放映を開始した。
+The post “おひなさま”こと長浜広奈起用の「辛ミョン」　“オシャレかわいい”ブランド目指すCMのこだわりとは？ first appeare</div>
+      
+      <div class="card-meta">
+        <span>2026-04-06</span>
+        
+        <span class="card-category">新着記事</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://www.advertimes.com/20260406/article540358/?utm_source=feed" target="_blank"
+     data-source="AdverTimes" data-published="2026-04-06" data-published-iso="2026-04-06T06:04:33Z">
+    
+    <img class="card-image" src="https://cdn.advertimes.com/wp-content/uploads/2026/04/jaaa13_wakate-award_ogp-1200x630.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#34A853\'>A</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #34A853"></span>
+        AdverTimes
+      </div>
+      <div class="card-title">JAAA若手大賞、絶対にバズるSNS「Y」、＃おねがいテプラ、もしもしブルータスなど5作品を優秀賞に選出</div>
+      
+      <div class="card-summary">日本広告業協会（JAAA）主催による第13回「広告業界の若手が選ぶ、コミュニケーション大賞( JAAA若手大賞)」の入賞作品が発表となった。
+The post JAAA若手大賞、絶対にバズるSNS「Y」、＃おねがいテプラ、もしもしブルータスなど5作品を優秀賞に選出 first appeared on</div>
+      
+      <div class="card-meta">
+        <span>2026-04-06</span>
+        
+        <span class="card-category">新着記事</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://www.advertimes.com/20260406/article540342/?utm_source=feed" target="_blank"
+     data-source="AdverTimes" data-published="2026-04-06" data-published-iso="2026-04-06T02:16:47Z">
+    
+    <img class="card-image" src="https://cdn.advertimes.com/wp-content/uploads/2026/04/zama_sagamihara_pr_ogp-1200x630.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#34A853\'>A</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #34A853"></span>
+        AdverTimes
+      </div>
+      <div class="card-title">対決相手だけど前代未聞の広報誌コラボ　相模原市＆座間市</div>
+      
+      <div class="card-summary">神奈川県相模原市の広報誌の表紙に写るのは、同市在住でプロボクシング元WBC・IBF世界バンタム級チャンピオンで世界3階級制覇王者の中谷潤人選手、一方、同県座間市の広報誌の表紙を飾るのは座間市出身でWBA・WBC・IBF・WBO世界スーパーバンタム級4団体統一王者の井上尚弥選手。5月2日に行われるダブ</div>
+      
+      <div class="card-meta">
+        <span>2026-04-06</span>
+        
+        <span class="card-category">新着記事</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://dentsu-ho.com/articles/9687" target="_blank"
+     data-source="電通報" data-published="2026-04-06" data-published-iso="">
+    
+    <img class="card-image" src="https://cdn.speedsize.com/e7df76a9-4406-40f5-bc97-57e7c2c2d99d/https://cdn.dentsu-ho.com/026c29ad-b047-442a-8545-d9a7bc809473/202603_d-abema-day_top.jpg/f_auto,w_3840"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#9B59B6\'>D</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #9B59B6"></span>
+        電通報
+      </div>
+      <div class="card-title">社長対談レポート：藤田晋氏×佐野傑氏――ABEMAのこれまでとこれから</div>
+      
+      <div class="card-meta">
+        <span>2026-04-06</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://dentsu-ho.com/articles/9681" target="_blank"
+     data-source="電通報" data-published="2026-04-06" data-published-iso="">
+    
+    <img class="card-image" src="https://cdn.speedsize.com/e7df76a9-4406-40f5-bc97-57e7c2c2d99d/https://cdn.dentsu-ho.com/6fcab0f8-5446-4b91-bf0b-33521d9527ae/02JAAA-color-logo_top.jpg/f_auto,w_3840"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#9B59B6\'>D</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #9B59B6"></span>
+        電通報
+      </div>
+      <div class="card-title">第61回吉田秀雄記念賞、「OOH新共通指標策定プロジェクト」がグループ賞を受賞</div>
+      
+      <div class="card-meta">
+        <span>2026-04-06</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://markezine.jp/article/detail/50626" target="_blank"
+     data-source="MarkeZine" data-published="2026-04-03" data-published-iso="2026-04-03T03:00:00Z">
+    
+    <img class="card-image" src="https://markezine.jp/static/images/article/50626/50626_fb.png"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#FF6B35\'>M</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #FF6B35"></span>
+        MarkeZine
+      </div>
+      <div class="card-title">イルグルムのコンバージョンAPIツール「CAPiCO」、LINEヤフーの新広告プラットフォームに対応</div>
+      
+      <div class="card-meta">
+        <span>2026-04-03</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://markezine.jp/article/detail/50625" target="_blank"
+     data-source="MarkeZine" data-published="2026-04-03" data-published-iso="2026-04-03T02:00:00Z">
+    
+    <img class="card-image" src="https://markezine.jp/static/images/article/50625/50625_arena.png"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#FF6B35\'>M</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #FF6B35"></span>
+        MarkeZine
+      </div>
+      <div class="card-title">SEO分析ツール「Amethyst」、チャットAI機能を正式リリース</div>
+      
+      <div class="card-meta">
+        <span>2026-04-03</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://markezine.jp/article/detail/50303" target="_blank"
+     data-source="MarkeZine" data-published="2026-04-03" data-published-iso="2026-04-03T00:00:00Z">
+    
+    <img class="card-image" src="https://markezine.jp/static/images/article/50303/50303_fb2.png"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#FF6B35\'>M</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #FF6B35"></span>
+        MarkeZine
+      </div>
+      <div class="card-title">「デマンドセンター」なきマーケ組織に意味はない。庭山氏に聞く、日本のBtoBが「片肺飛行」になる理由</div>
+      
+      <div class="card-summary">「マーケティング組織を立ち上げて最初の6ヵ月にやること」をテーマに、松本健太郎氏がBtoBマーケティングの識者にインタビューする連載がスタート。現在、BtoB領域におけるマーケティング組織の必要性は浸透しており、大企業からベンチャー企業まで「組織の立ち上げ」も増えている。しかし、「箱は作ったが実態は</div>
+      
+      <div class="card-meta">
+        <span>2026-04-03</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://markezine.jp/article/detail/39398" target="_blank"
+     data-source="MarkeZine" data-published="2026-04-03" data-published-iso="2026-04-02T22:00:00Z">
+    
+    <img class="card-image" src="https://markezine.jp/static/images/article/39398/39398_fb.png"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#FF6B35\'>M</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #FF6B35"></span>
+        MarkeZine
+      </div>
+      <div class="card-title">LINEヤフー、LINE広告とYahoo!広告のディスプレイ広告を統合　新プラットフォームを提供開始</div>
+      
+      <div class="card-meta">
+        <span>2026-04-03</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://www.advertimes.com/20260403/article539941/?utm_source=feed" target="_blank"
+     data-source="AdverTimes" data-published="2026-04-03" data-published-iso="2026-04-03T09:03:52Z">
+    
+    <img class="card-image" src="https://cdn.advertimes.com/wp-content/uploads/2026/04/col29_okada_ogp-1200x630.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#34A853\'>A</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #34A853"></span>
+        AdverTimes
+      </div>
+      <div class="card-title">NVIDIA「DLSS」批判の論点は？　“映像のディテールを勝手につくる” 技術の系譜から考える</div>
+      
+      <div class="card-summary">前回はNVIDIAのGPUに搭載された、AI画像処理技術「DLSS」の歴史と正体について取り上げました。DLAAゲーム映像をリアルタイムで高画質化する技術で、3月16日には「DLSS 5」が登場。カプコンの『バイオハザード レクイエム』を用いたデモンストレーションは物議を醸しています。
+The po</div>
+      
+      <div class="card-meta">
+        <span>2026-04-03</span>
+        
+        <span class="card-category">コラム</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://www.advertimes.com/20260403/article540316/?utm_source=feed" target="_blank"
+     data-source="AdverTimes" data-published="2026-04-03" data-published-iso="2026-04-03T08:38:21Z">
+    
+    <img class="card-image" src="https://cdn.advertimes.com/wp-content/uploads/2026/04/sony-music_universal-music_ogp-1200x630.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#34A853\'>A</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #34A853"></span>
+        AdverTimes
+      </div>
+      <div class="card-title">ソニーミュージックとユニバーサルが合弁会社　アジアで音楽フェス展開、日本アーティストの海外進出支援へ</div>
+      
+      <div class="card-summary">コンテンツ産業の海外展開を官民で押し上げる動きが、音楽領域でも具体化してきた。ソニー・ミュージックエンタテインメントは4月1日、ユニバーサル ミュージックと共同で、アジア地域における音楽フェスティバル事業の企画・運営を目的とした合弁会社「NINE BY NINE」を同日付で設立したと発表した。事業内</div>
+      
+      <div class="card-meta">
+        <span>2026-04-03</span>
+        
+        <span class="card-category">新着記事</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://www.advertimes.com/20260403/article540272/?utm_source=feed" target="_blank"
+     data-source="AdverTimes" data-published="2026-04-03" data-published-iso="2026-04-03T08:09:43Z">
+    
+    <img class="card-image" src="https://cdn.advertimes.com/wp-content/uploads/2026/04/ddd_draw_kenya-h_ec_ogp-1200x630.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#34A853\'>A</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #34A853"></span>
+        AdverTimes
+      </div>
+      <div class="card-title">1枚のポスターから未来構想に至るまでのスケッチを公開、原研哉氏の原画展開催</div>
+      
+      <div class="card-summary">京都dddギャラリーにて、４月４日から「原画展　DRAW―原研哉は描いている」が始まる。
+The post 1枚のポスターから未来構想に至るまでのスケッチを公開、原研哉氏の原画展開催 first appeared on AdverTimes.（アドタイ） by 宣伝会議.</div>
+      
+      <div class="card-meta">
+        <span>2026-04-03</span>
+        
+        <span class="card-category">新着記事</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://www.advertimes.com/20260403/article540291/?utm_source=feed" target="_blank"
+     data-source="AdverTimes" data-published="2026-04-03" data-published-iso="2026-04-03T07:35:04Z">
+    
+    <img class="card-image" src="https://cdn.advertimes.com/wp-content/uploads/2026/04/xtrans_ogp2-1200x630.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#34A853\'>A</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #34A853"></span>
+        AdverTimes
+      </div>
+      <div class="card-title">ファミリーマートも便乗した「ピーナッツコーラ」とは　Xの“自動翻訳”で進む広報のグローバル化　日本企業の投稿に外国人も反応</div>
+      
+      <div class="card-summary">Xでアメリカの食文化やライフスタイルに関する投稿が話題になり始めている。
+The post ファミリーマートも便乗した「ピーナッツコーラ」とは　Xの“自動翻訳”で進む広報のグローバル化　日本企業の投稿に外国人も反応 first appeared on AdverTimes.（アドタイ） by 宣伝会</div>
+      
+      <div class="card-meta">
+        <span>2026-04-03</span>
+        
+        <span class="card-category">新着記事</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://www.advertimes.com/20260403/article540247/?utm_source=feed" target="_blank"
+     data-source="AdverTimes" data-published="2026-04-03" data-published-iso="2026-04-03T07:30:18Z">
+    
+    <img class="card-image" src="https://cdn.advertimes.com/wp-content/uploads/2026/04/lycorp_wow-our-users_ogp-1200x630.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#34A853\'>A</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #34A853"></span>
+        AdverTimes
+      </div>
+      <div class="card-title">LINEヤフー、ミッション刷新　AI時代にもNo.1への執念</div>
+      
+      <div class="card-summary">同社はこれまで、「『WOW』なライフプラットフォームを創り、日常に『！』を届ける。」をミッションに掲げ、「ユーザーファースト」「やりぬく」「少数精鋭」をバリューとしてきた。初めての体験であり、他の人に思わず教えたくなるような感動を“WOW”と定義し、今回の刷新では、ユーザーに想像を超える感動を届ける</div>
+      
+      <div class="card-meta">
+        <span>2026-04-03</span>
+        
+        <span class="card-category">新着記事</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://www.advertimes.com/20260403/article540254/?utm_source=feed" target="_blank"
+     data-source="AdverTimes" data-published="2026-04-03" data-published-iso="2026-04-03T06:51:15Z">
+    
+    <img class="card-image" src="https://cdn.advertimes.com/wp-content/uploads/2026/04/ogp-8-1200x630.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#34A853\'>A</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #34A853"></span>
+        AdverTimes
+      </div>
+      <div class="card-title">森永乳業、企業キャッチコピー策定　ブランドムービーや新ロゴも公開</div>
+      
+      <div class="card-summary">森永乳業は3月31日、新たな企業キャッチコピー「今日、おなかにできること。」を策定したと発表した。あわせて、公式サイトでコーポレートブランディングの取り組みを公開し、ブランドムービーの展開も始めた。コーポレートコミュニケーションロゴとして、「Mにっこりマーク」も新たに開発した。
+The post 森</div>
+      
+      <div class="card-meta">
+        <span>2026-04-03</span>
+        
+        <span class="card-category">新着記事</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://markezine.jp/article/detail/50623" target="_blank"
+     data-source="MarkeZine" data-published="2026-04-02" data-published-iso="2026-04-02T04:00:00Z">
+    
+    <img class="card-image" src="https://markezine.jp/static/images/article/50623/50623_fb.png"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#FF6B35\'>M</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #FF6B35"></span>
+        MarkeZine
+      </div>
+      <div class="card-title">Teads、日本法人のカントリーマネージャーに中川昂也氏が就任</div>
+      
+      <div class="card-meta">
+        <span>2026-04-02</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://markezine.jp/article/detail/50566" target="_blank"
+     data-source="MarkeZine" data-published="2026-04-02" data-published-iso="2026-04-01T23:30:00Z">
+    
+    <img class="card-image" src="https://markezine.jp/static/images/article/50566/50566_fb.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#FF6B35\'>M</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #FF6B35"></span>
+        MarkeZine
+      </div>
+      <div class="card-title">パナソニック コネクト・コクヨが実践するBtoBマーケティングの顧客理解、顧客の「先」を見る技術</div>
+      
+      <div class="card-summary">BtoBマーケティングでも「顧客理解」の重要性がたびたび語られる。しかし、目の前の担当者だけを「顧客」と捉えていないか。その先にいるステークホルダーまで解像度高く見られているか。MarkeZine Day 2026 Springではパナソニック コネクトの関口昭如氏とコクヨの小川剛氏が登壇。AiKA</div>
+      
+      <div class="card-meta">
+        <span>2026-04-02</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://markezine.jp/article/detail/50621" target="_blank"
+     data-source="MarkeZine" data-published="2026-04-02" data-published-iso="2026-04-01T23:00:00Z">
+    
+    <img class="card-image" src="https://markezine.jp/static/images/article/50621/50621_fb.png"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#FF6B35\'>M</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #FF6B35"></span>
+        MarkeZine
+      </div>
+      <div class="card-title">「現場の真ん中で企み、時代に先駆け、仕掛けていきましょう」電通入社式、松本新社長からのメッセージ</div>
+      
+      <div class="card-summary">電通は4月1日、同社本社ビルの電通ホールにて、2026年度新入社員入社式「Day One Ceremony 2026」を開催した。2026年度の新入社員は計156名（男性76名、女性80名）。式典には電通のほか、dentsu Japan傘下のグループ9社（アド電通大阪、ザ・ゴール、電通アドギア、電通</div>
+      
+      <div class="card-meta">
+        <span>2026-04-02</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://markezine.jp/article/detail/39899" target="_blank"
+     data-source="MarkeZine" data-published="2026-04-02" data-published-iso="2026-04-01T22:00:00Z">
+    
+    <img class="card-image" src="https://markezine.jp/static/images/article/39899/39899_fb.png"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#FF6B35\'>M</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #FF6B35"></span>
+        MarkeZine
+      </div>
+      <div class="card-title">電通デジタル、「∞AI Chat」をリブランディング　10種類の実務特化型AIエージェントを本格提供</div>
+      
+      <div class="card-meta">
+        <span>2026-04-02</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://dentsu-ho.com/articles/9679" target="_blank"
+     data-source="電通報" data-published="2026-04-02" data-published-iso="">
+    
+    <img class="card-image" src="https://cdn.speedsize.com/e7df76a9-4406-40f5-bc97-57e7c2c2d99d/https://cdn.dentsu-ho.com/d56ec290-3c35-40f9-92e2-cd02550907f5/dmi_webinar_20260416_top.jpg/f_auto,w_3840"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#9B59B6\'>D</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #9B59B6"></span>
+        電通報
+      </div>
+      <div class="card-title">【参加者募集】電通×電通マクロミルインサイト 共催ウェビナー「AIによる購買行動の変化」4月16～22日開催</div>
+      
+      <div class="card-meta">
+        <span>2026-04-02</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://dentsu-ho.com/articles/9678" target="_blank"
+     data-source="電通報" data-published="2026-04-02" data-published-iso="">
+    
+    <img class="card-image" src="https://cdn.speedsize.com/e7df76a9-4406-40f5-bc97-57e7c2c2d99d/https://cdn.dentsu-ho.com/62d980ca-e818-4f23-bf20-302fbc40f217/t_20260422_top.jpg/f_auto,w_3840"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#9B59B6\'>D</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #9B59B6"></span>
+        電通報
+      </div>
+      <div class="card-title">【参加者募集】Do! Solutions Webinar「『イマドキの若者』が企業の未来を握る！」4月22日開催</div>
+      
+      <div class="card-meta">
+        <span>2026-04-02</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://markezine.jp/article/detail/50620" target="_blank"
+     data-source="MarkeZine" data-published="2026-04-01" data-published-iso="2026-04-01T05:15:00Z">
+    
+    <img class="card-image" src="https://markezine.jp/static/images/article/50620/50620_ogp.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#FF6B35\'>M</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #FF6B35"></span>
+        MarkeZine
+      </div>
+      <div class="card-title">HubSpot Japan、伊佐裕也氏がカントリーマネージャーに就任</div>
+      
+      <div class="card-meta">
+        <span>2026-04-01</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://markezine.jp/article/detail/50580" target="_blank"
+     data-source="MarkeZine" data-published="2026-04-01" data-published-iso="2026-04-01T05:00:00Z">
+    
+    <img class="card-image" src="https://markezine.jp/static/images/article/50580/50580_ogp.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#FF6B35\'>M</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #FF6B35"></span>
+        MarkeZine
+      </div>
+      <div class="card-title">Channel Factory Japan、「CMO Experience」を開始　知見共有の場に</div>
+      
+      <div class="card-meta">
+        <span>2026-04-01</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://markezine.jp/article/detail/50524" target="_blank"
+     data-source="MarkeZine" data-published="2026-04-01" data-published-iso="2026-04-01T02:00:00Z">
+    
+    <img class="card-image" src="https://markezine.jp/static/images/article/50524/50524_fb2.png"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#FF6B35\'>M</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #FF6B35"></span>
+        MarkeZine
+      </div>
+      <div class="card-title">データをどう読み解けば「消費者の本音」に辿り着けるのか？事例から紐解くAI時代のデータ活用戦略</div>
+      
+      <div class="card-summary">消費者インサイトの細分化が進む今、従来の分析手法に限界を感じるマーケターは少なくない。本稿では、東芝デジタルソリューションズが提唱する「データ×AI」によるインサイト解明の戦略をレポートする。昨今の米不足が購買に与えた影響や、豆乳の意外な併売傾向といったリアルな事例を通じ、AIというエンジンを動かす</div>
+      
+      <div class="card-meta">
+        <span>2026-04-01</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://markezine.jp/article/detail/50523" target="_blank"
+     data-source="MarkeZine" data-published="2026-04-01" data-published-iso="2026-04-01T01:00:00Z">
+    
+    <img class="card-image" src="https://markezine.jp/static/images/article/50523/50523_fb.png"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#FF6B35\'>M</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #FF6B35"></span>
+        MarkeZine
+      </div>
+      <div class="card-title">人より本音が出る？ リピート意向81.7％、工数97％削減を両立する「AIインタビュー」の真価</div>
+      
+      <div class="card-summary">新事業やサービスを立ち上げる際、成否の鍵を握るのは作り手の自信ではなく「市場が求めているか」という冷徹な事実だ。しかし、従来の市場調査には「高コスト・長時間・重い工数」という3つの大きな壁があり、多くの企業が深い顧客理解を断念してきた。この現状を打破し、「リサーチの民主化」を掲げるのがプロダクトフォ</div>
+      
+      <div class="card-meta">
+        <span>2026-04-01</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://markezine.jp/article/detail/50590" target="_blank"
+     data-source="MarkeZine" data-published="2026-04-01" data-published-iso="2026-04-01T00:00:00Z">
+    
+    <img class="card-image" src="https://markezine.jp/static/images/article/50590/50590_ogp.jpg"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#FF6B35\'>M</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #FF6B35"></span>
+        MarkeZine
+      </div>
+      <div class="card-title">TikTok Shopトップクリエイター3名が語る「売れる」信頼構築＆ブランドとの役割分担</div>
+      
+      <div class="card-summary">ショート動画やライブ配信から購買へ直結する時代、最前線にいるクリエイターのセンスと戦略はブランドに何を求めるのか――。ブランド価値向上やEC売上拡大を目指すセラー（出店者）側にとって、プラットフォームで活躍するクリエイターとの協業は重要課題だ。本記事では、TikTok Shopで成果を上げるトップク</div>
+      
+      <div class="card-meta">
+        <span>2026-04-01</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://dentsu-ho.com/articles/9667" target="_blank"
+     data-source="電通報" data-published="2026-03-23" data-published-iso="">
+    
+    <img class="card-image" src="https://cdn.speedsize.com/e7df76a9-4406-40f5-bc97-57e7c2c2d99d/https://cdn.dentsu-ho.com/ada890e5-fa74-4827-9f54-58a03ed37f82/gcnj2026_top.jpg/f_auto,w_3840"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#9B59B6\'>D</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #9B59B6"></span>
+        電通報
+      </div>
+      <div class="card-title">企業トップが働き方の公平性を議論する「GCNJサミット2026」開催。dentsu Japanが取り組み事例を発表</div>
+      
+      <div class="card-meta">
+        <span>2026-03-23</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://dentsu-ho.com/articles/9662" target="_blank"
+     data-source="電通報" data-published="2026-03-19" data-published-iso="">
+    
+    <img class="card-image" src="https://cdn.speedsize.com/e7df76a9-4406-40f5-bc97-57e7c2c2d99d/https://cdn.dentsu-ho.com/e2d15c81-dc1b-4d40-b1b1-ea49d9e4cc36/04_afureta_main_top.jpg/f_auto,w_3840"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#9B59B6\'>D</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #9B59B6"></span>
+        電通報
+      </div>
+      <div class="card-title">電通クリエイティブピクチャーズが短編映画「......overcome with あふれた..」を製作</div>
+      
+      <div class="card-meta">
+        <span>2026-03-19</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://dentsu-ho.com/articles/9651" target="_blank"
+     data-source="電通報" data-published="2026-03-05" data-published-iso="">
+    
+    <img class="card-image" src="https://cdn.speedsize.com/e7df76a9-4406-40f5-bc97-57e7c2c2d99d/https://cdn.dentsu-ho.com/b3226933-0fd3-47c8-a8ea-78299f283005/t_20260325_top.jpg/f_auto,w_3840"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#9B59B6\'>D</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #9B59B6"></span>
+        電通報
+      </div>
+      <div class="card-title">【参加者募集】Do! Solutions Webinar「電通が仕掛けるクリエイティブ最新事例」3月25日開催</div>
+      
+      <div class="card-meta">
+        <span>2026-03-05</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://dentsu-ho.com/articles/9650" target="_blank"
+     data-source="電通報" data-published="2026-03-03" data-published-iso="">
+    
+    <img class="card-image" src="https://cdn.speedsize.com/e7df76a9-4406-40f5-bc97-57e7c2c2d99d/https://cdn.dentsu-ho.com/8f906b0a-da8f-4a2b-a77b-802bd897789d/DMI_webinar20260318_top.jpg/f_auto,w_3840"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#9B59B6\'>D</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #9B59B6"></span>
+        電通報
+      </div>
+      <div class="card-title">【参加者募集】電通×電通マクロミルインサイト 共催ウェビナー「値上げ時代のプライシング ～電通発の価格戦略モデル『Marketing For Growth With Pricing』～」3月18～24</div>
+      
+      <div class="card-meta">
+        <span>2026-03-03</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://dentsu-ho.com/articles/9627" target="_blank"
+     data-source="電通報" data-published="2026-03-02" data-published-iso="">
+    
+    <img class="card-image" src="https://cdn.speedsize.com/e7df76a9-4406-40f5-bc97-57e7c2c2d99d/https://cdn.dentsu-ho.com/c504e3ec-b326-40b1-86a1-11dc1f7357df/79th_koukokudentsusho_top.jpg/f_auto,w_3840"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#9B59B6\'>D</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #9B59B6"></span>
+        電通報
+      </div>
+      <div class="card-title">第79回広告電通賞の応募受け付け開始</div>
+      
+      <div class="card-meta">
+        <span>2026-03-02</span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://dentsu-ho.com/articles/9680" target="_blank"
+     data-source="電通報" data-published="" data-published-iso="">
+    
+    <img class="card-image" src="https://cdn.speedsize.com/e7df76a9-4406-40f5-bc97-57e7c2c2d99d/https://cdn.dentsu-ho.com/a74b6628-3f84-46f6-9ea9-35d1812487ad/marketing%2Bprus04_top.jpg/f_auto,w_3840"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#9B59B6\'>D</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #9B59B6"></span>
+        電通報
+      </div>
+      <div class="card-title">「PR発想の共創型マーケティング」の実装に必要なものとは？</div>
+      
+      <div class="card-meta">
+        <span></span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://dentsu-ho.com/articles/9683" target="_blank"
+     data-source="電通報" data-published="" data-published-iso="">
+    
+    <img class="card-image" src="https://cdn.speedsize.com/e7df76a9-4406-40f5-bc97-57e7c2c2d99d/https://cdn.dentsu-ho.com/745a6598-49af-4843-9b70-2a810f4f7701/social-good-survey32_top.jpg/f_auto,w_3840"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#9B59B6\'>D</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #9B59B6"></span>
+        電通報
+      </div>
+      <div class="card-title">みどり戦略はお金になる！ ～アジア地域の食料システム変革で経済をまわすには～</div>
+      
+      <div class="card-meta">
+        <span></span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://dentsu-ho.com/articles/9673" target="_blank"
+     data-source="電通報" data-published="" data-published-iso="">
+    
+    <img class="card-image" src="https://cdn.speedsize.com/e7df76a9-4406-40f5-bc97-57e7c2c2d99d/https://cdn.dentsu-ho.com/69748f4f-31e7-4f91-a8fc-262b09f90ef1/event-bx03_top.jpg/f_auto,w_3840"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#9B59B6\'>D</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #9B59B6"></span>
+        電通報
+      </div>
+      <div class="card-title">経済的価値と社会的価値を同時に創出する、電通ライブの体験づくり～「キッズパークASONIWA」</div>
+      
+      <div class="card-meta">
+        <span></span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://dentsu-ho.com/articles/9672" target="_blank"
+     data-source="電通報" data-published="" data-published-iso="">
+    
+    <img class="card-image" src="https://cdn.speedsize.com/e7df76a9-4406-40f5-bc97-57e7c2c2d99d/https://cdn.dentsu-ho.com/303b984e-054c-4ccd-851f-71262707e7f0/260310_%E9%9B%BB%E9%80%9A%E5%A0%B1_%E5%A4%A7%E5%B1%B1%E7%94%BB%E5%83%8F1_top.jpg/f_auto,w_3840"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#9B59B6\'>D</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #9B59B6"></span>
+        電通報
+      </div>
+      <div class="card-title">研修も授業も変えていける。遊びから入るPLAY FIRSTのススメ</div>
+      
+      <div class="card-meta">
+        <span></span>
+        
+      </div>
+    </div>
+  </a>
+  
+  <a class="card" href="https://dentsu-ho.com/articles/9656" target="_blank"
+     data-source="電通報" data-published="" data-published-iso="">
+    
+    <img class="card-image" src="https://cdn.speedsize.com/e7df76a9-4406-40f5-bc97-57e7c2c2d99d/https://cdn.dentsu-ho.com/fe9a61d2-771a-4290-a404-9f68509616fb/digital_technology_top.jpg/f_auto,w_3840"
+         alt="" loading="lazy"
+         onerror="this.outerHTML='<div class=\'card-placeholder\' style=\'background:#9B59B6\'>D</div>'">
+    
+    <div class="card-body">
+      <div class="card-source">
+        <span class="dot" style="background: #9B59B6"></span>
+        電通報
+      </div>
+      <div class="card-title">「成長」と「尊厳」のジレンマを超え、人間の幸福を考える　シリーズ：「人」の探究</div>
+      
+      <div class="card-meta">
+        <span></span>
+        
+      </div>
+    </div>
+  </a>
+  
+</div>
+
+<script>
+const now = new Date();
+const cutoff = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+let currentDate = 'all';
+let currentSource = 'all';
+
+function applyFilters() {
+  document.querySelectorAll('.card').forEach(function(card) {
+    var pubIso = card.getAttribute('data-published-iso') || '';
+    var src = card.getAttribute('data-source') || '';
+
+    var dateOk = true;
+    if (currentDate !== 'all') {
+      var pubDate = pubIso ? new Date(pubIso) : null;
+      if (!pubDate || isNaN(pubDate.getTime())) {
+        dateOk = (currentDate === 'recent');
+      } else {
+        var isRecent = pubDate.getTime() >= cutoff.getTime();
+        dateOk = (currentDate === 'recent') ? isRecent : !isRecent;
+      }
+    }
+
+    var sourceOk = (currentSource === 'all') || (src === currentSource);
+
+    card.style.display = (dateOk && sourceOk) ? '' : 'none';
+  });
+}
+
+// 各ボタンに直接リスナーを付ける（スマホ・Safari対応）
+var filterBtns = document.querySelectorAll('.filter-btn');
+for (var i = 0; i < filterBtns.length; i++) {
+  (function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      var filterType = btn.getAttribute('data-filter');
+      var value = btn.getAttribute('data-value');
+      var siblings = document.querySelectorAll('[data-filter="' + filterType + '"]');
+      for (var j = 0; j < siblings.length; j++) siblings[j].classList.remove('active');
+      btn.classList.add('active');
+      if (filterType === 'date') currentDate = value;
+      else if (filterType === 'source') currentSource = value;
+      applyFilters();
+    });
+  })(filterBtns[i]);
+}
+</script>
+
+</body>
+</html>
