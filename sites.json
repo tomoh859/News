@@ -38,5 +38,13 @@
     "url": "https://predge.jp/feed",
     "color": "#E74C3C",
     "icon": "P"
+  },
+  {
+    "id": "nikkei",
+    "name": "日本経済新聞",
+    "type": "rss",
+    "url": "https://news.google.com/rss/search?q=site:nikkei.com&hl=ja&gl=JP&ceid=JP:ja",
+    "color": "#C0392B",
+    "icon": "日"
   }
 ]
