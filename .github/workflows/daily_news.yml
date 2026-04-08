@@ -5,6 +5,9 @@ on:
     - cron: '5 22 * * *'  # 22:05 UTC = 翌7:05 JST
   workflow_dispatch:        # 手動実行ボタンも有効
 
+permissions:
+  contents: write  # GitHub Pagesへのデプロイに必要
+
 jobs:
   send-news:
     runs-on: ubuntu-latest
@@ -27,3 +30,13 @@ jobs:
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
           EMAIL_RECIPIENTS: ${{ secrets.EMAIL_RECIPIENTS }}
         run: python main.py --mail --no-open
+
+      - name: gallery.html を index.html としてコピー
+        run: cp output/gallery.html output/index.html
+
+      - name: GitHub Pages にデプロイ
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./output
+          publish_branch: gh-pages
