@@ -273,23 +273,22 @@ let currentDate = 'all';
 let currentSource = 'all';
 
 function applyFilters() {
-  document.querySelectorAll('.card').forEach(card => {
-    const pubIso = card.dataset.publishedIso || '';
-    const src = card.dataset.source || '';
+  document.querySelectorAll('.card').forEach(function(card) {
+    var pubIso = card.getAttribute('data-published-iso') || '';
+    var src = card.getAttribute('data-source') || '';
 
-    let dateOk = true;
+    var dateOk = true;
     if (currentDate !== 'all') {
-      if (!pubIso) {
-        // 日時不明の記事は「24時間以内」扱い
-        dateOk = currentDate === 'recent';
+      var pubDate = pubIso ? new Date(pubIso) : null;
+      if (!pubDate || isNaN(pubDate.getTime())) {
+        dateOk = (currentDate === 'recent');
       } else {
-        const pubDate = new Date(pubIso);
-        const isRecent = pubDate >= cutoff;
-        dateOk = currentDate === 'recent' ? isRecent : !isRecent;
+        var isRecent = pubDate.getTime() >= cutoff.getTime();
+        dateOk = (currentDate === 'recent') ? isRecent : !isRecent;
       }
     }
 
-    let sourceOk = currentSource === 'all' || src === currentSource;
+    var sourceOk = (currentSource === 'all') || (src === currentSource);
 
     card.style.display = (dateOk && sourceOk) ? '' : 'none';
   });

@@ -50,13 +50,13 @@ def fetch_rss(site: dict) -> list[Article]:
         published = ""
         published_iso = ""
         if hasattr(entry, "published_parsed") and entry.published_parsed:
-            dt = datetime(*entry.published_parsed[:6])
-            published = dt.strftime("%Y-%m-%d")
-            published_iso = dt.strftime("%Y-%m-%dT%H:%M:%S")
+            dt = datetime(*entry.published_parsed[:6], tzinfo=timezone.utc)
+            published = dt.astimezone(JST).strftime("%Y-%m-%d")
+            published_iso = dt.strftime("%Y-%m-%dT%H:%M:%SZ")
         elif hasattr(entry, "updated_parsed") and entry.updated_parsed:
-            dt = datetime(*entry.updated_parsed[:6])
-            published = dt.strftime("%Y-%m-%d")
-            published_iso = dt.strftime("%Y-%m-%dT%H:%M:%S")
+            dt = datetime(*entry.updated_parsed[:6], tzinfo=timezone.utc)
+            published = dt.astimezone(JST).strftime("%Y-%m-%d")
+            published_iso = dt.strftime("%Y-%m-%dT%H:%M:%SZ")
 
         # 概要
         summary = ""
