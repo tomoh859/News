@@ -104,16 +104,16 @@ def send_email(html_content: str, recent_articles: list = None) -> tuple[bool, s
 <table width="100%" cellpadding="0" cellspacing="0" style="background:#f7f6f3;">
 <tr><td align="center" style="padding:20px;">
 <table width="680" cellpadding="0" cellspacing="0" style="max-width:100%;">
-  <tr><td style="background:linear-gradient(135deg,#2d3436,#636e72);color:white;padding:24px;border-radius:12px 12px 0 0;">
-    <div style="font-size:20px;font-weight:700;">📰 最新ニュース ({date_str})</div>
-    <div style="font-size:13px;opacity:0.8;margin-top:6px;">24時間以内の新着記事 {len(recent_articles)}件</div>
+  <tr><td style="background:#f7f6f3;padding:24px 24px 16px;">
+    <div style="font-size:20px;font-weight:700;color:#37352f;">📰 最新ニュース ({date_str})</div>
+    <div style="font-size:13px;color:#787774;margin-top:6px;">24時間以内の新着記事 {len(recent_articles)}件</div>
+  </td></tr>
+  <tr><td style="background:#f7f6f3;padding:0 24px 16px;">
+    <div style="font-size:13px;color:#37352f;margin-bottom:8px;">📋 全記事のまとめはこちら</div>
+    <a href="{PAGES_URL}" target="_blank" style="display:inline-block;background:#37352f;color:white;padding:10px 20px;border-radius:8px;text-decoration:none;font-size:13px;font-weight:600;">{PAGES_URL}</a>
   </td></tr>
   <tr><td style="background:#f7f6f3;padding:4px 8px;">
     <table width="100%" cellpadding="0" cellspacing="0">{sections}</table>
-  </td></tr>
-  <tr><td style="background:white;padding:16px 24px;border-radius:0 0 12px 12px;">
-    <div style="font-size:13px;color:#37352f;margin-bottom:8px;">📋 全記事のまとめはこちら</div>
-    <a href="{PAGES_URL}" target="_blank" style="display:inline-block;background:#37352f;color:white;padding:10px 20px;border-radius:8px;text-decoration:none;font-size:13px;font-weight:600;">{PAGES_URL}</a>
   </td></tr>
 </table>
 </td></tr>
