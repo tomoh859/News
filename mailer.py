@@ -60,7 +60,7 @@ def send_email(html_content: str, recent_articles: list = None) -> tuple[bool, s
             img = f'<img src="{a.image_url}" width="100%" style="height:140px;object-fit:cover;display:block;" alt="">' if a.image_url else f'<div style="height:140px;background:{a.source_color};display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:700;color:white;">{a.source_icon}</div>'
             date_tag = f'<div style="font-size:11px;color:#9b9a97;margin-top:4px;">{a.published}</div>' if a.published else ""
             summary_tag = f'<div style="font-size:12px;color:#787774;margin-top:4px;line-height:1.4;">{a.summary[:80]}...</div>' if a.summary else ""
-            cards += f"""<div style="width:calc(50% - 8px);box-sizing:border-box;display:inline-block;vertical-align:top;margin-bottom:16px;">
+            cards += f"""<div style="width:calc(33.33% - 11px);box-sizing:border-box;display:inline-block;vertical-align:top;margin-bottom:16px;">
   <a href="{a.url}" target="_blank" style="display:block;background:white;border-radius:10px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.08);text-decoration:none;color:inherit;">
     {img}
     <div style="padding:10px 12px;">
@@ -77,7 +77,7 @@ def send_email(html_content: str, recent_articles: list = None) -> tuple[bool, s
     <div style="font-size:20px;font-weight:700;">📰 最新ニュース ({date_str})</div>
     <div style="font-size:13px;opacity:0.8;margin-top:6px;">24時間以内の新着記事 {len(recent_articles)}件</div>
   </div>
-  <div style="font-size:0;">{cards}</div>
+  <div style="font-size:0;letter-spacing:0;">{cards}</div>
   <div style="text-align:center;margin-top:8px;padding:16px;background:white;border-radius:10px;font-size:13px;color:#787774;">
     📎 全記事は添付のHTMLファイルをブラウザで開いてご確認ください。
   </div>

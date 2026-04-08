@@ -1,5 +1,6 @@
 """設定ファイル"""
 import json
+import os
 from pathlib import Path
 
 # 出力先
@@ -21,9 +22,19 @@ SITES = load_sites()
 EMAIL_FILE = BASE_DIR / "email_settings.json"
 
 def load_email_settings() -> dict:
+    settings = {}
     if EMAIL_FILE.exists():
-        return json.loads(EMAIL_FILE.read_text("utf-8"))
-    return {}
+        settings = json.loads(EMAIL_FILE.read_text("utf-8"))
+
+    # 環境変数で上書き（GitHub Actions / Secrets 対応）
+    if os.environ.get("EMAIL_SENDER"):
+        settings["sender"] = os.environ["EMAIL_SENDER"]
+    if os.environ.get("EMAIL_PASSWORD"):
+        settings["password"] = os.environ["EMAIL_PASSWORD"]
+    if os.environ.get("EMAIL_RECIPIENTS"):
+        settings["recipients"] = json.loads(os.environ["EMAIL_RECIPIENTS"])
+
+    return settings
 
 def save_email_settings(settings: dict):
     EMAIL_FILE.write_text(

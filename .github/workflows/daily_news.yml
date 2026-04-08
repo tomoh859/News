@@ -1,0 +1,29 @@
+name: Daily Marketing News
+
+on:
+  schedule:
+    - cron: '5 22 * * *'  # 22:05 UTC = 翌7:05 JST
+  workflow_dispatch:        # 手動実行ボタンも有効
+
+jobs:
+  send-news:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v4
+
+      - name: Python セットアップ
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 依存パッケージをインストール
+        run: pip install -r requirements.txt
+
+      - name: ニュース収集・メール送信
+        env:
+          EMAIL_SENDER: ${{ secrets.EMAIL_SENDER }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+          EMAIL_RECIPIENTS: ${{ secrets.EMAIL_RECIPIENTS }}
+        run: python main.py --mail --no-open
