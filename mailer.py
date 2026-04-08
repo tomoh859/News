@@ -2,8 +2,6 @@
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from email.mime.base import MIMEBase
-from email import encoders
 from datetime import datetime, timezone, timedelta
 
 from config import load_email_settings
@@ -30,6 +28,9 @@ def filter_recent_articles(articles: list, hours: int = 24) -> list:
                 recent.append(a)
 
     return recent
+
+
+PAGES_URL = "https://tomoh859.github.io/News/"
 
 
 def send_email(html_content: str, recent_articles: list = None) -> tuple[bool, str]:
@@ -110,8 +111,9 @@ def send_email(html_content: str, recent_articles: list = None) -> tuple[bool, s
   <tr><td style="background:#f7f6f3;padding:4px 8px;">
     <table width="100%" cellpadding="0" cellspacing="0">{sections}</table>
   </td></tr>
-  <tr><td style="background:white;padding:14px;text-align:center;font-size:12px;color:#787774;border-radius:0 0 12px 12px;">
-    📎 全記事は添付のHTMLファイルをブラウザで開いてご確認ください。
+  <tr><td style="background:white;padding:16px 24px;border-radius:0 0 12px 12px;">
+    <div style="font-size:13px;color:#37352f;margin-bottom:8px;">📋 全記事のまとめはこちら</div>
+    <a href="{PAGES_URL}" target="_blank" style="display:inline-block;background:#37352f;color:white;padding:10px 20px;border-radius:8px;text-decoration:none;font-size:13px;font-weight:600;">{PAGES_URL}</a>
   </td></tr>
 </table>
 </td></tr>
@@ -124,16 +126,6 @@ def send_email(html_content: str, recent_articles: list = None) -> tuple[bool, s
 </body></html>"""
 
     msg.attach(MIMEText(body_html, "html", "utf-8"))
-
-    attachment = MIMEBase("text", "html")
-    attachment.set_payload(html_content.encode("utf-8"))
-    encoders.encode_base64(attachment)
-    attachment.add_header(
-        "Content-Disposition",
-        "attachment",
-        filename=("utf-8", "", filename),
-    )
-    msg.attach(attachment)
 
     try:
         with smtplib.SMTP(smtp_server, smtp_port) as server:
