@@ -294,22 +294,23 @@ function applyFilters() {
   });
 }
 
-document.getElementById('filters').addEventListener('click', function(e) {
-  var btn = e.target;
-  while (btn && !btn.classList.contains('filter-btn')) btn = btn.parentElement;
-  if (!btn) return;
-  var filterType = btn.getAttribute('data-filter');
-  var value = btn.getAttribute('data-value');
-  if (filterType === 'date') {
-    currentDate = value;
-    document.querySelectorAll('[data-filter="date"]').forEach(function(b) { b.classList.remove('active'); });
-  } else if (filterType === 'source') {
-    currentSource = value;
-    document.querySelectorAll('[data-filter="source"]').forEach(function(b) { b.classList.remove('active'); });
-  }
-  btn.classList.add('active');
-  applyFilters();
-});
+// 各ボタンに直接リスナーを付ける（スマホ・Safari対応）
+var filterBtns = document.querySelectorAll('.filter-btn');
+for (var i = 0; i < filterBtns.length; i++) {
+  (function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      var filterType = btn.getAttribute('data-filter');
+      var value = btn.getAttribute('data-value');
+      var siblings = document.querySelectorAll('[data-filter="' + filterType + '"]');
+      for (var j = 0; j < siblings.length; j++) siblings[j].classList.remove('active');
+      btn.classList.add('active');
+      if (filterType === 'date') currentDate = value;
+      else if (filterType === 'source') currentSource = value;
+      applyFilters();
+    });
+  })(filterBtns[i]);
+}
 </script>
 
 </body>

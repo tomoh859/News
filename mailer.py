@@ -12,18 +12,22 @@ JST = timezone(timedelta(hours=9))
 
 
 def filter_recent_articles(articles: list, hours: int = 24) -> list:
-    """指定時間以内に公開された記事だけを返す"""
-    now = datetime.now(JST)
-    cutoff = now - timedelta(hours=hours)
-    cutoff_str = cutoff.strftime("%Y-%m-%d")
+    """published_iso（UTC）で正確に指定時間以内の記事だけを返す"""
+    cutoff = datetime.now(timezone.utc) - timedelta(hours=hours)
 
     recent = []
     for a in articles:
-        if not a.published:
-            recent.append(a)
-            continue
-        if a.published >= cutoff_str:
-            recent.append(a)
+        if a.published_iso:
+            try:
+                pub = datetime.fromisoformat(a.published_iso.replace("Z", "+00:00"))
+                if pub >= cutoff:
+                    recent.append(a)
+            except ValueError:
+                pass  # 日時パース失敗は除外
+        elif a.published:
+            # published_isoがない場合は日付文字列でフォールバック
+            if a.published >= cutoff.strftime("%Y-%m-%d"):
+                recent.append(a)
 
     return recent
 
@@ -53,31 +57,46 @@ def send_email(html_content: str, recent_articles: list = None) -> tuple[bool, s
     msg["From"] = sender
     msg["To"] = ", ".join(recipients)
 
-    # 本文HTML：24時間以内の記事をテーブル3列ギャラリー形式で
+    # 本文HTML：24時間以内の記事をメディアごとセクション分け・3列表示
     if recent_articles:
-        # 3列テーブルの行を生成
-        rows = ""
-        for i in range(0, len(recent_articles), 3):
-            chunk = recent_articles[i:i+3]
-            cells = ""
-            for a in chunk:
-                img = f'<img src="{a.image_url}" width="100%" height="120" style="object-fit:cover;display:block;" alt="">' if a.image_url else f'<div style="height:120px;background:{a.source_color};text-align:center;line-height:120px;font-size:36px;font-weight:700;color:white;">{a.source_icon}</div>'
-                date_tag = f'<div style="font-size:10px;color:#9b9a97;margin-top:4px;">{a.published}</div>' if a.published else ""
-                summary_tag = f'<div style="font-size:11px;color:#787774;margin-top:4px;line-height:1.4;">{a.summary[:60]}...</div>' if a.summary else ""
-                cells += f"""<td width="33%" valign="top" style="padding:6px;">
-  <a href="{a.url}" target="_blank" style="display:block;background:white;border-radius:8px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.08);text-decoration:none;color:inherit;">
+        # メディアごとにグループ化（掲載順を保持）
+        grouped = {}
+        for a in recent_articles:
+            if a.source not in grouped:
+                grouped[a.source] = []
+            grouped[a.source].append(a)
+
+        def make_card(a):
+            img = (f'<img src="{a.image_url}" width="100%" height="110" style="object-fit:cover;display:block;" alt="">'
+                   if a.image_url else
+                   f'<div style="height:110px;background:{a.source_color};text-align:center;line-height:110px;font-size:32px;font-weight:700;color:white;">{a.source_icon}</div>')
+            date_tag = f'<div style="font-size:10px;color:#9b9a97;margin-top:4px;">{a.published}</div>' if a.published else ""
+            return f"""<td width="33%" valign="top" style="padding:5px;">
+  <a href="{a.url}" target="_blank" style="display:block;background:white;border-radius:8px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.08);text-decoration:none;color:inherit;">
     {img}
     <div style="padding:8px 10px;">
-      <div style="font-size:10px;font-weight:600;color:{a.source_color};margin-bottom:3px;">● {a.source}</div>
       <div style="font-size:12px;font-weight:600;color:#37352f;line-height:1.4;">{a.title}</div>
-      {summary_tag}{date_tag}
+      {date_tag}
     </div>
   </a>
 </td>"""
-            # 3列に満たない場合は空セルで埋める
-            for _ in range(3 - len(chunk)):
-                cells += '<td width="33%"></td>'
-            rows += f'<tr>{cells}</tr>'
+
+        sections = ""
+        for source, arts in grouped.items():
+            color = arts[0].source_color
+            rows = ""
+            for i in range(0, len(arts), 3):
+                chunk = arts[i:i+3]
+                cells = "".join(make_card(a) for a in chunk)
+                cells += '<td width="33%"></td>' * (3 - len(chunk))
+                rows += f'<tr>{cells}</tr>'
+            sections += f"""
+  <tr><td style="padding:16px 8px 4px;">
+    <div style="font-size:15px;font-weight:700;color:{color};border-left:4px solid {color};padding-left:10px;">● {source}</div>
+  </td></tr>
+  <tr><td style="padding:0 4px 8px;">
+    <table width="100%" cellpadding="0" cellspacing="0">{rows}</table>
+  </td></tr>"""
 
         body_html = f"""<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head>
 <body style="margin:0;padding:0;background:#f7f6f3;font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans',sans-serif;">
@@ -88,10 +107,8 @@ def send_email(html_content: str, recent_articles: list = None) -> tuple[bool, s
     <div style="font-size:20px;font-weight:700;">📰 最新ニュース ({date_str})</div>
     <div style="font-size:13px;opacity:0.8;margin-top:6px;">24時間以内の新着記事 {len(recent_articles)}件</div>
   </td></tr>
-  <tr><td style="background:#f7f6f3;padding:8px;">
-    <table width="100%" cellpadding="0" cellspacing="0">
-      {rows}
-    </table>
+  <tr><td style="background:#f7f6f3;padding:4px 8px;">
+    <table width="100%" cellpadding="0" cellspacing="0">{sections}</table>
   </td></tr>
   <tr><td style="background:white;padding:14px;text-align:center;font-size:12px;color:#787774;border-radius:0 0 12px 12px;">
     📎 全記事は添付のHTMLファイルをブラウザで開いてご確認ください。
