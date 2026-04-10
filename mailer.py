@@ -68,15 +68,15 @@ def send_email(html_content: str, recent_articles: list = None) -> tuple[bool, s
             grouped[a.source].append(a)
 
         def make_card(a):
-            img = (f'<img src="{a.image_url}" width="100%" height="110" style="object-fit:cover;display:block;" alt="">'
+            img = (f'<img src="{a.image_url}" width="100%" height="150" style="object-fit:cover;display:block;" alt="">'
                    if a.image_url else
-                   f'<div style="height:110px;background:{a.source_color};text-align:center;line-height:110px;font-size:32px;font-weight:700;color:white;">{a.source_icon}</div>')
-            date_tag = f'<div style="font-size:10px;color:#9b9a97;margin-top:4px;">{a.published}</div>' if a.published else ""
-            return f"""<td width="33%" valign="top" style="padding:5px;">
-  <a href="{a.url}" target="_blank" style="display:block;background:white;border-radius:8px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.08);text-decoration:none;color:inherit;">
+                   f'<div style="height:150px;background:{a.source_color};text-align:center;line-height:150px;font-size:36px;font-weight:700;color:white;">{a.source_icon}</div>')
+            date_tag = f'<div style="font-size:11px;color:#9b9a97;margin-top:6px;">{a.published}</div>' if a.published else ""
+            return f"""<td width="33%" valign="top" style="padding:6px;">
+  <a href="{a.url}" target="_blank" style="display:block;background:white;border-radius:8px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.08);text-decoration:none;color:inherit;font-family:'游ゴシック','Yu Gothic',YuGothic,sans-serif;">
     {img}
-    <div style="padding:8px 10px;">
-      <div style="font-size:12px;font-weight:600;color:#37352f;line-height:1.4;">{a.title}</div>
+    <div style="padding:10px 12px;">
+      <div style="font-size:14px;font-weight:600;color:#37352f;line-height:1.5;">{a.title}</div>
       {date_tag}
     </div>
   </a>
@@ -100,10 +100,10 @@ def send_email(html_content: str, recent_articles: list = None) -> tuple[bool, s
   </td></tr>"""
 
         body_html = f"""<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head>
-<body style="margin:0;padding:0;background:#f7f6f3;font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans',sans-serif;">
+<body style="margin:0;padding:0;background:#f7f6f3;font-family:'游ゴシック','Yu Gothic',YuGothic,'Hiragino Sans',-apple-system,BlinkMacSystemFont,sans-serif;">
 <table width="100%" cellpadding="0" cellspacing="0" style="background:#f7f6f3;">
 <tr><td align="center" style="padding:20px;">
-<table width="680" cellpadding="0" cellspacing="0" style="max-width:100%;">
+<table width="960" cellpadding="0" cellspacing="0" style="max-width:100%;">
   <tr><td style="background:#f7f6f3;padding:24px 24px 16px;">
     <div style="font-size:20px;font-weight:700;color:#37352f;">📰 最新ニュース ({date_str})</div>
     <div style="font-size:13px;color:#787774;margin-top:6px;">24時間以内の新着記事 {len(recent_articles)}件</div>
@@ -120,7 +120,7 @@ def send_email(html_content: str, recent_articles: list = None) -> tuple[bool, s
 </table>
 </body></html>"""
     else:
-        body_html = f"""<!DOCTYPE html><html><body style="font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans',sans-serif;padding:24px;">
+        body_html = f"""<!DOCTYPE html><html><body style="font-family:'游ゴシック','Yu Gothic',YuGothic,'Hiragino Sans',-apple-system,BlinkMacSystemFont,sans-serif;padding:24px;">
   <p>本日({date_str})の最新ニュースをお届けします。</p>
   <p style="color:#787774;">📎 詳細は添付のHTMLファイルをブラウザで開いてご確認ください。</p>
 </body></html>"""
