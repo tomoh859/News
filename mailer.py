@@ -92,27 +92,27 @@ def send_email(html_content: str, recent_articles: list = None) -> tuple[bool, s
                 cells += '<td width="33%"></td>' * (3 - len(chunk))
                 rows += f'<tr>{cells}</tr>'
             sections += f"""
-  <tr><td style="padding:16px 8px 4px;">
+  <tr><td style="padding:16px 4px 4px;">
     <div style="font-size:15px;font-weight:700;color:{color};border-left:4px solid {color};padding-left:10px;">● {source}</div>
   </td></tr>
-  <tr><td style="padding:0 4px 8px;">
+  <tr><td style="padding:0 0 8px;">
     <table width="100%" cellpadding="0" cellspacing="0">{rows}</table>
   </td></tr>"""
 
         body_html = f"""<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head>
-<body style="margin:0;padding:0;background:#f7f6f3;font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans',sans-serif;">
+<body style="margin:0;padding:0;background:#f7f6f3;font-family:'Yu Gothic',YuGothic,'Hiragino Sans',-apple-system,BlinkMacSystemFont,sans-serif;">
 <table width="100%" cellpadding="0" cellspacing="0" style="background:#f7f6f3;">
 <tr><td align="center" style="padding:20px;">
-<table width="680" cellpadding="0" cellspacing="0" style="max-width:100%;">
-  <tr><td style="background:#f7f6f3;padding:24px 24px 16px;">
+<table width="780" cellpadding="0" cellspacing="0" style="max-width:100%;">
+  <tr><td style="background:#f7f6f3;padding:24px 16px 16px;">
     <div style="font-size:20px;font-weight:700;color:#37352f;">📰 最新ニュース ({date_str})</div>
     <div style="font-size:13px;color:#787774;margin-top:6px;">24時間以内の新着記事 {len(recent_articles)}件</div>
   </td></tr>
-  <tr><td style="background:#f7f6f3;padding:0 24px 16px;">
+  <tr><td style="background:#f7f6f3;padding:0 16px 16px;">
     <div style="font-size:13px;color:#37352f;margin-bottom:8px;">📋 全記事のまとめはこちら</div>
     <a href="{PAGES_URL}" target="_blank" style="display:inline-block;background:#37352f;color:white;padding:10px 20px;border-radius:8px;text-decoration:none;font-size:13px;font-weight:600;">{PAGES_URL}</a>
   </td></tr>
-  <tr><td style="background:#f7f6f3;padding:4px 8px;">
+  <tr><td style="background:#f7f6f3;padding:4px 4px;">
     <table width="100%" cellpadding="0" cellspacing="0">{sections}</table>
   </td></tr>
 </table>
