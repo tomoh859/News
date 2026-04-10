@@ -2,7 +2,7 @@ name: Daily Marketing News
 
 on:
   schedule:
-    - cron: '5 22 * * *'  # 22:05 UTC = 翌7:05 JST
+    - cron: '5 22 * * 0-3,4'  # 22:05 UTC 日-木 = 翌7:05 JST 月-金
   workflow_dispatch:        # 手動実行ボタンも有効
 
 permissions:
